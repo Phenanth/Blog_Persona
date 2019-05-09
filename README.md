@@ -77,7 +77,11 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ###  2 系统概述
 #### 2.1 概述
 博客，仅音译，英文名为Blogger,它的正式名称为网络日记。用户可以在博客系统上发布文章，与互联网上的其他用户进行交流与分享，它代表着新的生活、工作和学习方式。
+
 #### 2.2 功能
+个人博客系统功能图如下：
+![个人博客系统功能图.png](https://upload-images.jianshu.io/upload_images/4945773-522d6aa8828c0d90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 #### 2.3 运行环境
 该系统为B/S三层结构，它的运行环境分客户端、应用服务器端和数据库服务器端三部分。
 以下是系统的软件环境。
@@ -92,18 +96,23 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 数据库系统：MySQL。
 
 #### 2.4 假设与依赖
-
+本系统的成功与否，依赖于用户的需求是否能够得到实现。
 
 ###  3 系统特性
 #### 3.1 系统角色
 本系统主要用于学校的以下几类人员：
-1. 管理员即已注册用户，可新建，删除或编辑文章，对文章标签进行管理，浏览文章
-2. 游客，浏览文章，对文章进行打赏
+1. 管理员即已注册用户，可新建，删除或编辑文章，添加标签，删除标签，浏览标签，浏览文章
+![管理员用例图](https://upload-images.jianshu.io/upload_images/4945773-2f7803f4dcb38677.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+2. 游客，浏览文章，浏览标签，对文章进行打赏
+![游客用例图](https://upload-images.jianshu.io/upload_images/4945773-9fb1691324f773c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ####  3.2 文章管理
 ##### 3.2.1 新建文章
 使用者：管理员
+
 目的：添加一篇新文章
+
 基本事件流
 1. 管理员进入博客文章一览界面，本用例开始
 2. 系统显示所有已发布文章，管理员点击新建
@@ -112,7 +121,9 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ##### 3.2.2 编辑文章
 使用者：管理员
+
 目的：对现有的一篇文章进行修改
+
 基本事件流
 1. 管理员进入某篇文章的内容页，本用例开始
 2. 管理员点击编辑，系统跳转至文章编辑界面
@@ -122,7 +133,9 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ##### 3.2.3 删除文章
 使用者：管理员
+
 目的：添加一篇新文章
+
 基本事件流
 1. 管理员进入博客文章一览界面，本用例开始
 2. 系统显示所有已发布文章，管理员点击删除文章，选择需要删除的一篇或多篇文章
@@ -132,7 +145,9 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ####  3.3 标签管理
 ##### 3.3.1 添加标签
 使用者：管理员
+
 目的：为现有的一篇文章添加标签
+
 基本事件流
 1. 管理员进入单个文章标签管理界面，本用例开始
 2. 系统显示所有文章标签一览，管理员点击现有标签或输入需要添加标签的文字，为当前文章添加标签
@@ -140,7 +155,9 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ##### 3.3.2 删除标签
 使用者：管理员
+
 目的：删除一篇文章现有的标签
+
 基本事件流
 1. 管理员进入单个文章标签管理界面，本用例开始
 2. 系统显示所有文章标签一览，管理员点击删除标签，选择需要删除的一个或多个标签
@@ -165,7 +182,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 > 如果觉得太麻烦的话看看有没有别的一体化的组件，用默认样式就可以。
 
 ##### 3.4.2 管理员浏览文章
-
 使用者：管理员
 
 目的：浏览一篇现有文章的内容
@@ -178,7 +194,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ####  3.5 登录
 ##### 3.5.1 管理员登录
-
 使用者：管理员
 
 目的：登录博客系统
@@ -190,7 +205,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ####  3.6 其他特性
 ##### 3.6.1 打赏管理员
-
 使用者：游客
 
 目的：打赏网站管理员
@@ -200,7 +214,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 2. 游客扫描支付平台二维码完成打赏
 
 ##### 3.6.2 查看文章大纲
-
 使用者：网站用户
 
 目的：查看一篇文章由标题、子标题组成的大纲链接
@@ -215,7 +228,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 > 通过markdown-toc将md文档生成好的大纲内容动态地替换到文章html中预留的位置
 
 ##### 3.6.3 博客标签一览
-
 使用者：网站用户
 
 目的：查看博客所有文章的所有标签
@@ -245,26 +257,21 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ###  5 外部接口需求
 #### 5.1 用户接口
-
 本系统采用B/S架构，所有界面使用Web风格，访问本系统需要使用PC或移动端的浏览器。
 
 用户界面的具体细节将在概要设计文档中描述。
 
 #### 5.2 硬件接口
-
 服务器端将使用阿里云服务器提供后台服务。
 
 #### 5.3 软件接口
-
 打赏二维码将使用支付宝与微信提供的收款二维码，除此以外无特殊需求。
 
 #### 5.4 通信接口
-
 后台服务器使用Node.JS的服务路由提供服务，前后端使用Axios进行跨域与数据传输。
 
 
 ## 系统WBS
-
 WBS部分，以工作分解结构表的形式对开发工作进行描述
 
 1. 项目范围规划
