@@ -1,17 +1,33 @@
 # Blog-Persona
 
 > A personal blog and a web app using Vue.
+> 0523：搭建工程整体框架，引入部分既有模块。
 
-## Build Setup
+## 起步
+
+### 数据库与文件系统配置
+```bash
+# 创建文件系统本地路径
+mkdir file
+```
+
+```bash
+# 登入MySQL命令行
+mysql -uroot -p
+
+#使用/server/sql下的persona.sql内语句创建数据库，表与用户。
+```
+
+### 前端框架启动
 
 ``` bash
-# install dependencies
+# 安装依赖项
 npm install
 
-# serve with hot reload at localhost:8080
+# 本地运行前端开发脚手架，默认访问localhost:8081
 npm run dev
 
-# build for production with minification
+# 构建服务器发布版
 npm run build
 
 # build for production and view the bundle analyzer report
@@ -19,6 +35,31 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+### 服务器启动
+```bash
+# 进入服务器
+cd server
+
+# 服务器默认地址localhost:3000
+node server.js
+```
+
+## 技术栈
+
+- Vue.JS
+- Node.JS
+- Vue-Router
+- Axios
+- MySQL
+- md文件系统
+
+> 文章内容的md文件存储在本地的file文件夹内，路径由.gitignore文件屏蔽，不会上传到Github中。
+
+## 开发参考
+[Vue.JS](https://cn.vuejs.org/v2/guide/)
+[Vue-Router](https://router.vuejs.org/zh/guide/)
+[以往工程代码参考](https://github.com/Phenanth/GA-Login)
 
 ## 需求规格说明书
 
@@ -61,7 +102,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 	- 部门领导：		提前了解本产品的功能和性能。
 	- 公司领导：		同上。
 
-#### 1.4 用户范围
+#### 1.4 范围
 
 该产品是由在校学生以自己所学知识与开发经验的基础上进行开发的。
 
@@ -117,7 +158,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 1. 管理员进入博客文章一览界面，本用例开始
 2. 系统显示所有已发布文章，管理员点击新建
 3. 系统跳转至文章编辑界面，管理员输入文章内容
-4. 管理员点击发布按钮，系统将文章保存为md文件，并跳转至文章一览页面
+4. 管理员点击发布按钮，系统将文章保存为md文件，并跳转至文章一览页面，本用例结束
 
 ##### 3.2.2 编辑文章
 使用者：管理员
@@ -129,7 +170,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 2. 管理员点击编辑，系统跳转至文章编辑界面
 3. 系统通过文件系统获取该文章对应的md文件的内容，并在正文位置显示格式化后的md文字内容
 4. 管理员对文章内容进行修改
-4. 管理员点击保存按钮，系统将文章保存为md文件，并跳转至文章一览页面
+4. 管理员点击保存按钮，系统将文章保存为md文件，并跳转至文章一览页面，本用例结束
 
 ##### 3.2.3 删除文章
 使用者：管理员
@@ -140,7 +181,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 1. 管理员进入博客文章一览界面，本用例开始
 2. 系统显示所有已发布文章，管理员点击删除文章，选择需要删除的一篇或多篇文章
 3. 管理员点击删除，系统提示管理员进行删除确认操作
-4. 管理员确认删除，系统通过文件系统删除相应的md文件
+4. 管理员确认删除，系统通过文件系统删除相应的md文件，本用例结束
 
 ####  3.3 标签管理
 ##### 3.3.1 添加标签
