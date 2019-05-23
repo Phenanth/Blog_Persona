@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <template>
 <div id="reader">
-    <h1>Reader</h1>	
+	<!-- 在这里取用路径里面的:id -->
+    <h1>Reader {{ $route.params.articleId }}</h1>	
 </div>
 </template>
 <script>

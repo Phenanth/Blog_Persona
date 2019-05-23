@@ -39,7 +39,7 @@ export default new Router({
 			name: 'Editor',
 			component: Editor,
 			beforeEnter: (to, from, next) => {
-				// 需要检验登录token
+				// 需要检验文章是否存在+登录token
 				// 登录功能完成后，再完成本路由守护部分
 				next()
 			}
@@ -47,7 +47,12 @@ export default new Router({
 		{
 			path: 'read',
 			name: 'Reader',
-			component: Reader
+			component: Reader,
+			beforeEnter: (to, from, next) => {
+				// 需要检验文章是否存在
+				// 文章读取功能完成后，再完成本路由守护部分
+				next()
+			}
 		}
 		]
 	},
