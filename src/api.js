@@ -27,6 +27,8 @@ instance.interceptors.response.use(response => {
 
 export default {
 	
+	// 这里开始是Login相关api
+
 	doLogin ( data ) {
 		return instance.post('/api/login', data)
 	},
@@ -49,6 +51,24 @@ export default {
 
 	removeVerify ( data ) {
 		return instance.post('/api/removeverify', data)
+	},
+
+	// 这里开始是FileSystem相关api
+
+	getArticleList ( data ) {
+		return instance.post('/api/getFileList', data)
+	},
+
+	getArticleState ( data ) {
+		return instance.post('/api/getFileExistenceState', data)
+	},
+
+	getArticleNumber ( data ) {
+		return instance.post('/api/getFileNumber', data)
+	},
+
+	saveEditorText ( data ) {
+		return instance.post('/api/saveFileContent', data)
 	}
 
 }
