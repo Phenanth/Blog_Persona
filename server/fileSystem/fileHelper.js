@@ -9,6 +9,8 @@ const Express = require('express');
 const router = Express.Router();
 const db = require('../db/connect.js');
 
+const fs = require('fs');
+
 // 获取所有文件一览，带分页
 // 文件的命名标准: id - title
 // 返回由创建时间从新到旧的id和title组成的页内文章数个数的数组
@@ -34,7 +36,7 @@ const getFileList = (req, res) => {
 				});
 			} else {
 				// console.log(results);
-
+				console.log('Operation: Article - Get List, State: 200');
 				res.json({
 					info: 200,
 					success: true,
@@ -60,6 +62,7 @@ const getFileExistenceState = (req, res) => {
 		if (error) {
 			console.log(error)
 		} else {
+			console.log('Operation: Get File Existence State, State: 200.')
 			if(results.length > 0) {
 				res.json({
 					info: 200,
@@ -112,6 +115,48 @@ const updateFileContent = (req, res) => {
 
 // 获取指定id文章的内容
 const getFileContent = (req, res) => {
+
+	let queryString = {
+		sql: 'SELECT article_id, article_title FROM articles WHERE article_id=?',
+		values: [req.body.articleId],
+		timeout: 40000
+	};
+
+	db.query(queryString, function(error, results, fields) {
+
+		if (error) {
+			console.log(error)
+			res.json({
+				info: 200,
+				success: false
+			});
+		} else {
+			// console.log(results)
+			if (results[0]) {
+				// 这边对于文件存储的位置需要改成绝对位置
+				// 否则会因为脚本运行的路径不同而出错的
+				let filename = '../file/' + results[0].article_id + ' - ' + results[0].article_title + '.md'
+				fs.readFile(filename, 'utf-8', function(err, data) {
+					if (err) {
+						console.log(err)
+						res.json({
+							info: 404,
+							success: false,
+							message: 'No File Found.'
+						});
+					} else {
+						console.log('Operation: Article - Get File Content, State: 200')
+						res.json({
+							info: 200,
+							success: true,
+							data: data,
+							title: results[0].article_title
+						});
+					}
+				})
+			}
+		}
+	})
 
 }
 

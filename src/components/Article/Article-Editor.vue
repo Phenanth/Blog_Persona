@@ -4,7 +4,7 @@
 
 	<div class="editor-head-bar">
 		<input type="button" value="Back" @click="goTo('/list')">
-		<input type="text" v-model="articleTitle">
+		<input type="text" v-model="articleTitle" placeholder="Input title here...">
 	</div>
 	<!-- 编辑器组件与属性的配置，具体的api见mavon-editor的api说明，或者node_modules中插件源代码props与events部分 -->
     <mavon-editor style="height: 100%;width: 100%" :toolbars="toolbarsValue" @save="saveMavon" :value="editorText"></mavon-editor>
@@ -110,6 +110,8 @@ export default {
     mounted: function () {
     	// 查询本文章是否是存在的文章
     	// 是则加载文章内容并初始化编辑关系
+
+
     	let indexs = this.$route.path.split('/')
 
     	let opt = {
@@ -121,14 +123,26 @@ export default {
     	}) => {
     		// console.log(data)
     		if (data.success) {
+                if (data.data) {
+                    api.getArticleContent(opt).then(({
+                        data
+                    }) => {
+                        if (data.success) {
+                            // console.log('Process getFileContent succeeded.')
+                            this.editorText = data.data
+                            this.articleTitle = data.title
+                        }
+                    })
+                }
                 // 在完成了编辑器的保存和读取功能后需要添加这里的逻辑
                 // 比如文章存在的情况下就读取文件系统，系统编辑状态
                 // 文章不存在的情况下，系统处于编辑新建文件状态
     			// console.log(data.data)
     		}
+            // 继续编辑的情况，初始化Editor的编辑栏的value
+            this.editorText = '# 示例标准内容(read failed)'
     	})
-    	// 继续编辑的情况，初始化Editor的编辑栏的value
-    	this.editorText = '# 一级标题'
+    	
     }
 }
 </script>

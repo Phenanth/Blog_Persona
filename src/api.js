@@ -63,6 +63,10 @@ export default {
 		return instance.post('/api/getFileExistenceState', data)
 	},
 
+	getArticleContent ( data ) {
+		return instance.post('/api/getFileContent', data)
+	},
+
 	getArticleNumber ( data ) {
 		return instance.post('/api/getFileNumber', data)
 	},
