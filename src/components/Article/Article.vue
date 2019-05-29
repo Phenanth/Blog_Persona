@@ -11,8 +11,9 @@ name: 'article-index'
 </script>
 <style>
 #article-index {
-    margin: auto;
+    /*margin: auto;
     width: 80%;
-    height: 580px;
+    height: 580px;*/
+    height: 100%;
 }
 </style>
