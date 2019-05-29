@@ -33,7 +33,7 @@
 	  		<p>卡片的代码在上面，复制到每个新的页面里面就可以了。</p>
 		</div>
 		<div class="row">
-			<input id="" class="btn btn-warning col-md-2 col-3 offset-md-9 offset-3" type="button" value="New" @click="createNewArticle()"></input>
+			<input id="" class="btn btn-warning col-md-2 col-3 offset-md-9 offset-8" type="button" value="New" @click="createNewArticle()"></input>
 		</div>
     	<!-- 绑定key标签可以去掉框架的警告 -->
    		<div class="col-md-10 offset-md-1">
@@ -149,7 +149,6 @@ div, li, .btn, .btn-hover {
 
 #list {
     margin: 0px 20px 0px 20px;
-    height: 100%;
     background-color: #EEE;
 }
 
