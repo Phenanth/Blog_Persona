@@ -2,7 +2,10 @@
 /*
 文件系统相关模块
 用于处理md文件系统的内容
-暂时只有框架，还未完成
+只剩下删除文章未完成了
+删除文章:
+1. 从数据库删掉指定id的记录
+2. 从文件系统删除指定id的文件
 */
 
 const Express = require('express');
@@ -15,9 +18,8 @@ const fs = require('fs');
 // 文件的命名标准: id - title
 // 返回由创建时间从新到旧的id和title组成的页内文章数个数的数组
 const getFileList = (req, res) => {
-
 	let queryString = {
-		sql: 'SELECT article_id, article_title FROM articles',
+		sql: 'SELECT article_id, article_title, create_time, modify_time FROM articles',
 		timeout: 40000
 	};
 
@@ -45,7 +47,6 @@ const getFileList = (req, res) => {
 			}
 		}
 	})
-
 }
 
 // 查询文章是否存在
@@ -78,8 +79,6 @@ const getFileExistenceState = (req, res) => {
 			}
 		}
 	})
-
-	
 }
 
 // 获取目前文章序号数
@@ -104,26 +103,90 @@ const getFileNumber = (req, res) => {
 }
 
 // 储存指定id与title文章的内容
+// 先DB后文件系统，可能存在由于文件储存失败而导致的id占用问题
+// 导致后续文件也存储失败
 const saveFileContent = (req, res) => {
+	let queryString = {
+		sql: 'INSERT INTO articles (`article_id`, `article_title`, `create_time`, `modify_time`) VALUES (?)',
+		values: [[req.body.id, req.body.title, req.body.createTime, req.body.modifyTime]],
+		timeout: 40000
+	}
+	db.query(queryString, function(error, results, fields) {
+		if (error) {
+			console.log(error)
+			res.json({
+				info: 500,
+				success: false,
+				message: 'DB Fault.'
+			})	
+		} else {
+			let filename = '../file/' + req.body.id + ' - ' + req.body.title + '.md'
+			fs.writeFile(filename, req.body.text, function(error) {
+				if (error) {
+					console.log(error)
+					res.json({
+						info: 500,
+						success: false,
+						message: 'File save operation fault.'
+					})
+				} else {
+					// 这里的数据库操作和文件操作并不原子
+					// 有优化的余地
+					console.log('Operation: Article - Save File Content, State: 200')
+					res.json({
+						info: 200,
+						success: true
+					});
+				}
 
+			})
+		}
+	})
 }
 
 // 更新指定title文章的内容
 const updateFileContent = (req, res) => {
+	let queryString = {
+		sql: 'UPDATE articles SET article_title = ?, modify_time = ? WHERE article_id = ?',
+		values: [req.body.title, req.body.modifyTime, req.body.id],
+		timeout: 40000
+	};
+	db.query(queryString, function(error, results, fields) {
+		if (error) {
+			console.log(error)
+		} else {
+			let filename = '../file/' + req.body.id + ' - ' + req.body.title + '.md'
+			fs.writeFile(filename, req.body.text, function(error) {
+				if (error) {
+					console.log(error)
+					res.json({
+						info: 500,
+						success: false,
+						message: 'File update operation fault.'
+					})
+				} else {
+					// 这里的数据库操作和文件操作并不原子
+					// 有优化的余地
+					console.log('Operation: Article - Update File Content, State: 200')
+					res.json({
+						info: 200,
+						success: true
+					});
+				}
 
+			})
+		}
+	})
 }
 
 // 获取指定id文章的内容
 const getFileContent = (req, res) => {
-
 	let queryString = {
 		sql: 'SELECT article_id, article_title FROM articles WHERE article_id=?',
 		values: [req.body.articleId],
 		timeout: 40000
 	};
-
 	db.query(queryString, function(error, results, fields) {
-
 		if (error) {
 			console.log(error)
 			res.json({
@@ -157,7 +220,6 @@ const getFileContent = (req, res) => {
 			}
 		}
 	})
-
 }
 
 // 删除指定id的文章

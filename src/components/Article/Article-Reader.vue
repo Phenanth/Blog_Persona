@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <template>
 <div id="reader">
-	<!-- 在这里取用路径里面的:id -->
-    <h1>Reader {{ $route.params.articleId }}</h1>	
+	<!-- 取用路径里面的:id的方法如此处示例 -->
+    <div class="alert alert-info" role="alert">
+	 完全没动过的Reader页面，文章id为{{ $route.params.articleId }}
+	</div>
 </div>
 </template>
 <script>

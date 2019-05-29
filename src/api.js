@@ -28,6 +28,7 @@ instance.interceptors.response.use(response => {
 export default {
 	
 	// 这里开始是Login相关api
+	// 尚未集成
 
 	doLogin ( data ) {
 		return instance.post('/api/login', data)
@@ -73,6 +74,10 @@ export default {
 
 	saveEditorText ( data ) {
 		return instance.post('/api/saveFileContent', data)
+	},
+
+	updateEditorText ( data ) {
+		return instance.post('/api/updateFileContent', data)
 	}
 
 }

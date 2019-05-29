@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <template>
 <div id="login">
-    <h1>Login</h1>	
+	<div class="alert alert-info" role="alert">
+	 完全没动过的Login页面。
+	</div>
 </div>
 </template>
 <script>

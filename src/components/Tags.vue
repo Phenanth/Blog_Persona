@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <template>
 <div id="tags">
-    <h1>Tags</h1>	
+    <div class="alert alert-info" role="alert">
+	 完全没动过的Tag页面。
+	</div>
 </div>
 </template>
 <script>
