@@ -78,6 +78,35 @@ export default {
 
 	updateEditorText ( data ) {
 		return instance.post('/api/updateFileContent', data)
+	},
+
+	deleteArticle ( data ) {
+		return instance.post('/api/deleteFile', data)
+	},
+
+	// 这里开始是tag相关api
+	getTags (data) {
+		return instance.post('/api/getTags', data)
+	},
+
+	getArticleNumOfTag (data) {
+		return instance.post('/api/getArticleNumOfTag', data)
+	},
+
+	addTag (data) {
+		return instance.post('/api/getTags', data)
+	},
+
+	deleteTag (data) {
+		return instance.post('/api/getTags', data)
+	},
+
+	getTagArticlelist (data) {
+		return instance.post('/api/getTagArticlelist', data)
+	},
+
+	showTagofArticle (data) {
+		return instance.post('/api/showTagofArticle', data)
 	}
 
 }

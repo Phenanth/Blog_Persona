@@ -64,7 +64,7 @@ const Login = (req, res) => {
 					res.json({
 						info: 200,
 						success: true,
-						path: '/user/userinfo',
+						path: '/list',
 						user_secret: new Boolean(results[0].user_secret),
 						token: createToken(req.body.username, validTime)
 					});	

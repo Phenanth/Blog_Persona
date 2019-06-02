@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <template>
-<div id="article-index">
+<div id="article-index" class="row">
     <router-view></router-view>
 </div>
 </template>
@@ -10,9 +10,13 @@ name: 'article-index'
 }
 </script>
 <style>
+html, body {
+    background-color: #EEE;
+    width: 100%;
+    height: 100%;
+}
 #article-index {
-    margin: auto;
-    width: 80%;
-    height: 580px;
+    margin: 0px 20px 0px 20px;
+    background-color: #EEE;
 }
 </style>

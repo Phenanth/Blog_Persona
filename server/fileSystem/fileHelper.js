@@ -224,7 +224,42 @@ const getFileContent = (req, res) => {
 
 // 删除指定id的文章
 const deleteFile = (req, res) => {
+	let queryString = {
+		sql: 'DELETE FROM articles WHERE `article_id`=?',
+		values: [[req.body.articleId]],
+		timeout: 40000
+	}
+	db.query(queryString, function(error, results, fields) {
+		if (error) {
+			console.log(error)
+			res.json({
+				info: 500,
+				success: false,
+				message: 'DB Fault.'
+			})	
+		} else {
+			let filename = '../file/' + req.body.articleId + ' - ' + req.body.articleTitle + '.md'
+			//删除文件
+			fs.unlink(filename,function(error){
+			    if(error){
+			        console.log(error);
+			        res.json({
+						info: 500,
+						success: false,
+						message: 'File delete operation fault.'
+					})
+			    }
+			    else {
+					console.log('Operation: Article - Delete File, State: 200')
+					res.json({
+						info: 200,
+						success: true
+					});
+				}
+			})
 
+		}
+	})
 }
 
 

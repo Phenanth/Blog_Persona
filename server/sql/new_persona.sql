@@ -42,6 +42,55 @@ INSERT INTO `articles` VALUES (1,'Sample Text','2019-05-24 14:58','2019-5-29 18:
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tags`
+--
+
+DROP TABLE IF EXISTS `tags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tags` (
+  `tag_id` int(5) AUTO_INCREMENT,
+  `tag_name` char(100) NOT NULL,
+  PRIMARY KEY (`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tags`
+--
+
+LOCK TABLES `tags` WRITE;
+/*!40000 ALTER TABLE `tags` DISABLE KEYS */;
+INSERT INTO tags (tag_name) VALUES ('能化'),('股市'),('经济'),('公司'),('要闻');
+/*!40000 ALTER TABLE `tags` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tag_relationship`
+--
+
+DROP TABLE IF EXISTS `tag_relationship`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tag_relationship` (
+  `id` int(5) AUTO_INCREMENT,
+  `tag_id` int(5) NOT NULL,
+  `article_id` int(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tag_relationship`
+--
+
+LOCK TABLES `tag_relationship` WRITE;
+/*!40000 ALTER TABLE `tag_relationship` DISABLE KEYS */;
+INSERT INTO tag_relationship (article_id, tag_id) VALUES (5,1),(6,2);
+/*!40000 ALTER TABLE `tag_relationship` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -64,6 +113,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('alice','6cc7af7f2fbb06fd1701ebcd0497a2c2','F',NULL,NULL),('bob','6cc7af7f2fbb06fd1701ebcd0497a2c2','M',NULL,NULL),('candy','6cc7af7f2fbb06fd1701ebcd0497a2c2','M',NULL,NULL),('darcy','6cc7af7f2fbb06fd1701ebcd0497a2c2','M',NULL,NULL),('dom','6cc7af7f2fbb06fd1701ebcd0497a2c2','M',NULL,NULL),('echo','6cc7af7f2fbb06fd1701ebcd0497a2c2','M',NULL,NULL),('frank','6cc7af7f2fbb06fd1701ebcd0497a2c2','M',NULL,NULL),('gary','6cc7af7f2fbb06fd1701ebcd0497a2c2','M',NULL,NULL),('honey','7396b324b5381ff60222ccda29986f40','F',NULL,NULL),('kiki','6cc7af7f2fbb06fd1701ebcd0497a2c2','M',NULL,NULL),('miotokyo','6cc7af7f2fbb06fd1701ebcd0497a2c2','M',NULL,NULL),('nina','6cc7af7f2fbb06fd1701ebcd0497a2c2','M',NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

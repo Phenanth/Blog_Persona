@@ -14,8 +14,20 @@ CREATE TABLE `user` (
 
 
 # 创建tags表
-# 还没有写tags功能，表结构有待创建
+CREATE TABLE `tags` (
+  `tag_id` int(5) AUTO_INCREMENT,
+  `tag_name` char(100) NOT NULL,
+  PRIMARY KEY (`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
 
+# 创建tag_relationship表
+#标签与文章的对应关系
+CREATE TABLE `tag_relationship` (
+  `id` int(5) AUTO_INCREMENT,
+  `tag_id` int(5) NOT NULL,
+  `article_id` int(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
 
 # 创建articles表
 CREATE TABLE `articles` (
