@@ -7,7 +7,7 @@ const state = {
 
 const getters = {
 	getEditorText: function (state) {
-		return localStorage.getItem('token')
+		return localStorage.getItem('editorText')
 	}
 }
 
@@ -27,11 +27,11 @@ const actions = {
 const mutations = {
 	SAVEEDITORTEXT: function (state, data) {
 		localStorage.setItem('editorText', data)
-		state.token = data
+		state.editorText = data
 	},
 	REMOVEEDITORTEXT: function (state) {
 		localStorage.removeItem('editorText')
-		state.token = null
+		state.editorText = null
 	}
 }
 

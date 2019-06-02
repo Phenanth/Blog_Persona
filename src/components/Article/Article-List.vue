@@ -17,7 +17,9 @@
 			    <li class="list-group-item" @click="goTo('/tags')"><a class="card-link">Tag</a></li>
 			 </ul>
 			<div class="card-body">
-				<a @click="goTo('/login')" class="badge badge-warning">Login</a>
+				<!-- 登录与不登录显示不同内容 -->
+				<a v-if="isLogin" @click="doLogout()" class="badge badge-warning">Logout</a>
+				<a v-else @click="goTo('/login')" class="badge badge-warning">Login</a>
 				<a href="https://github.com/Phenanth/Blog_Persona" class="badge badge-light">Git</a>
 			</div>
 		</div>
@@ -25,15 +27,17 @@
 	<!-- 文章列表 -->
 	<div id="articleList" class="col-md-6 col-12">
     	<!-- 留言用 -->
- 		<!-- <div class="personaSticker alert alert-info" role="alert">
-	  		<h4 class="alert-heading">留言条（将来会被删掉）</h4>
+ 		<div class="personaSticker alert alert-info" role="alert">
+	  		<h4 class="alert-heading">留言条（第二版）</h4>
 	  		<hr>
-	  		<p>阅读功能还没完成的情况下，点Edit就能看到每篇md的内容。推荐看看备忘录那篇。</p>
-	  		<p>Tag和Login的入口都在左边的卡片里，文章的阅读是直接点文章题目即可。</p>
-	  		<p>卡片的代码在上面，复制到每个新的页面里面就可以了。</p>
-		</div> -->
+	  		<p>登录前后页面需要更改的地方：</p>
+	  		<p>1. Login/Logout按钮之间的切换</p>
+	  		<p>2. 一些登录后才能使用的功能，应该在未登录状态下在界面上隐藏。</p>
+	  		<p>阅读器还有一些优化的地方，辛苦啦。</p>
+		</div>
 		<div class="row">
-			<input id="" class="btn btn-warning col-2 offset-9" type="button" value="New" @click="createNewArticle()"></input>
+			<!-- 登录后才显示新建文章按钮 -->
+			<input v-if="isLogin" id="" class="btn btn-warning col-2 offset-9" type="button" value="New" @click="createNewArticle()"></input>
 		</div>
     	<!-- 绑定key标签可以去掉框架的警告 -->
    		<div class="col-md-10 offset-md-1">
@@ -44,6 +48,7 @@
 </template>
 <script>
 import api from '../../api.js'
+import store from '../../store'
 export default {
 	name: 'list',
 	data: function () {
@@ -58,6 +63,11 @@ export default {
 			if (this.sortBy == 'createTime') {
 				return this.sortByCreateTime(this.tempDatas)
 			}
+		},
+		isLogin: function () {
+			let isLoginState = JSON.parse(store.getters.getEditorText)
+			return isLoginState
+
 		}
 	},
 	methods: {
@@ -81,6 +91,11 @@ export default {
 			} else {
 				return 0
 			}
+		},
+		// 登出函数
+		doLogout: function () {
+			store.dispatch('removeEditorText')
+			this.$router.go(0)
 		},
 		sortCreateTimeRule: function (a, b) {
 			return a - b
@@ -244,7 +259,7 @@ div, li, .btn, .btn-hover {
 }
 
 .badge {
-	width: 50px;
+	width: 40px;
 	height: 20px;
 }
 

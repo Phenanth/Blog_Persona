@@ -74,16 +74,16 @@ export default {
 							username: this.username,
 							verify: data.user_secret
 						}
-						store.dispatch('storeToken', JSON.stringify(user)) 
-						if (data.user_secret) {
-				          let auth = {
-				            username: JSON.parse(localStorage.getItem('token')).username
-				          }
-				          // store.dispatch('setAuth', JSON.stringify(auth))
-				        } else {
-				        	// store.dispatch('removeAuth')
-				        }
-						this.$router.push(data.path)
+						store.dispatch('saveEditorText', JSON.stringify(user)) 
+						// if (data.user_secret) {
+				  //         let auth = {
+				  //           username: JSON.parse(localStorage.getItem('token')).username
+				  //         }
+				  //         // store.dispatch('setAuth', JSON.stringify(auth))
+				  //       } else {
+				  //       	// store.dispatch('removeAuth')
+				  //       }
+						// this.$router.push(data.path)
 						console.log(data)
 						this.$router.go(0)
 					} else {
@@ -100,7 +100,7 @@ export default {
 	}
 }
 </script>
-<style>
+<style scoped>
 img {
 	margin-right: 20px;
 	margin-left: 20px;

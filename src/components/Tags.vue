@@ -142,7 +142,7 @@ li {
 }
 
 .badge {
-  width: 40px;
+  width: 50px;
   height: 20px;
 }
 
