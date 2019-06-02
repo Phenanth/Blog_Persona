@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <template>
 <div id="list" class="row">
-	<div id="personaBar" class="col-md-2 offset-md-2 col-12">
+	<div id="personaBar" class="col-md-2 offset-md-1 offset-lg-2 col-12">
 		<!-- 网站信息卡片 -->
 		<div class="card text-right text-white bg-info mb-3">
 			
@@ -25,15 +25,15 @@
 	<!-- 文章列表 -->
 	<div id="articleList" class="col-md-6 col-12">
     	<!-- 留言用 -->
- 		<div class="personaSticker alert alert-info" role="alert">
+ 		<!-- <div class="personaSticker alert alert-info" role="alert">
 	  		<h4 class="alert-heading">留言条（将来会被删掉）</h4>
 	  		<hr>
 	  		<p>阅读功能还没完成的情况下，点Edit就能看到每篇md的内容。推荐看看备忘录那篇。</p>
 	  		<p>Tag和Login的入口都在左边的卡片里，文章的阅读是直接点文章题目即可。</p>
 	  		<p>卡片的代码在上面，复制到每个新的页面里面就可以了。</p>
-		</div>
+		</div> -->
 		<div class="row">
-			<input id="" class="btn btn-warning col-md-2 col-3 offset-md-9 offset-8" type="button" value="New" @click="createNewArticle()"></input>
+			<input id="" class="btn btn-warning col-2 offset-9" type="button" value="New" @click="createNewArticle()"></input>
 		</div>
     	<!-- 绑定key标签可以去掉框架的警告 -->
    		<div class="col-md-10 offset-md-1">
@@ -156,6 +156,7 @@ div, li, .btn, .btn-hover {
 	position: relative;
 	margin-right: 10px;
 	margin-bottom: 10px;
+	min-width: 220px;
 }
 
 #personaTitle {
@@ -195,16 +196,20 @@ div, li, .btn, .btn-hover {
 
 #articleList {
 	height: 100%;
-	padding: 20px;
+	padding: 48px 24px 48px 24px;
     background-color: white;
 }
 
 
 #articleItem {
 	/*background-color: lightblue;*/
-	padding: 24px;
+	padding: 12px;
 	border-bottom: 1px dashed black;
 	font-weight: bold;
+	min-height: 100px;
+	display: flex;
+	direction: row;
+	align-items: center;
 	/*border-radius: 15px;*/
 }
 
@@ -216,6 +221,12 @@ div, li, .btn, .btn-hover {
 }
 
 #articleItemCtlBar {
+}
+
+.articleTitleText {
+	max-height: 50px;
+	overflow: auto;
+
 }
 
 .articleTimeText {
@@ -233,7 +244,7 @@ div, li, .btn, .btn-hover {
 }
 
 .badge {
-	width: 40px;
+	width: 50px;
 	height: 20px;
 }
 

@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <template>
 <div id="editor">
-	<div class="editor-head-bar">
-		<div>
-			<input id="articleBtnGoList" class="btn btn-info" type="button" value="Back" @click="goTo('/list')">
+	<div class="editor-head-bar row">
+		<div class="col-md-11 col-lg-10 row">
+			<input id="articleBtnGoList" class="btn btn-info col-xl-1 col-md-2 col-3" type="button" value="Back" @click="goTo('/list')">
 			<transition name="fade"> 
-				<div id="articleAlertMsg" class="alert alert-info" v-if="alertSuccess">{{ successMsg }}</div>
-				<div id="articleAlertMsg" class="alert alert-danger" v-if="alertWarning">{{ wanrningMsg }}</div>
+				<div id="articleAlertMsg" class="alert alert-info offset-1" v-if="alertSuccess">{{ successMsg }}</div>
+				<div id="articleAlertMsg" class="alert alert-danger offset-1" v-if="alertWarning">{{ wanrningMsg }}</div>
 			</transition>
-			<div class="editor-input col-md-2 col-5">
+			<div class="editor-input col-md-3 col-4">
 				<small>Title:</small>
 				<input class="form-control" type="text" v-model="articleTitle" placeholder="Input title here...">
 			</div>
 		</div>
 	</div>
 	<!-- 编辑器组件与属性的配置，具体的api见mavon-editor的api说明，或者node_modules中插件源代码props与events部分 -->
-	<mavon-editor style="height: 100%;width: 100%" :toolbars="toolbarsValue" @save="saveMavon" :value="editorText"></mavon-editor>
+	<mavon-editor class="col-lg-10 col-12 offset-lg-1" style="height: 90%; " :toolbars="toolbarsValue" @save="saveMavon" :value="editorText"></mavon-editor>
 </div>
 </template>
 <script>
@@ -214,23 +214,20 @@ export default {
 </script>
 <style>
 #editor {
-	margin: auto;
 	width: 100%;
-	height: 580px;
+	height: 90vh;
 }
 
 .editor-head-bar {
 	display: flex;
-	height: 80px;
+	margin: 20px 0px 20px 0px;
 	flex-direction: column;
 	justify-content: flex-end;
 	align-items: center;
-	margin-bottom: 20px;
 }
 
 .editor-head-bar > div {
 	display: flex;
-	height: 50px;
 	width: 100%;
 	align-items: flex-end;
 	justify-content: space-between;
@@ -243,7 +240,7 @@ export default {
 }
 
 #articleBtnGoList {
-	height: 40px;
+	/*height: 40px;*/
 }
 
 .alert {
@@ -254,6 +251,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+	padding-right: 0px;
 }
 
 .fade-enter-active, .fade-leave-active {
