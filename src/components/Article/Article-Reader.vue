@@ -16,26 +16,40 @@
           <li class="list-group-item" @click="goTo('/tags')"><a class="card-link">Tag</a></li>
        </ul>
       <div class="card-body">
-        <a @click="goTo('/login')" class="badge badge-warning">Login</a>
+        <!-- 登录与不登录显示不同内容 -->
+        <a v-if="isLogin" @click="doLogout()" class="badge badge-warning">Logout</a>
+        <a v-else @click="goTo('/login')" class="badge badge-warning">Login</a>
         <a href="https://github.com/Phenanth/Blog_Persona" class="badge badge-light">Git</a>
       </div>
     </div>
   </div>
   <div id="read-head" class="col-md-6 col-12">
-    <div>
-      <input id="BtnDeleteArticle" class="btn btn-info" type="button" value="Delete" @click="deleteArticle">
-      <input id="BtnEditTag" class="btn btn-info" type="button" value="Edit Tags" @click="goTo('/TagEdit')">
+      <!--按钮-->
+      <input id="articleBtnGoList" class="btn btn-info col-xl-1 col-md-2 col-3" type="button" value="Back" @click="goTo('/list')">
+      <!--根据是否为第一篇文章显示不同内容-->
+      <input type="button" v-if="articleId != num" class="btn btn-info" value="Next" id="BtnNextArticle" @click="next">
+      <input type="button" v-else class="btn btn-info" value="Next" id="BtnNextArticle" @click="next" disabled>
+      <!--根据是否为最后一篇文章显示不同内容-->
+      <input  v-if="articleId != min" id="BtnLastArticle" class="btn btn-info" value="Last" type="button" @click="last">
+      <input  v-else id="BtnLastArticle" class="btn btn-info" value="Last" type="button" @click="last" disabled>
+      <!--编辑按钮-->
+      <input id="BtnDeleteArticle" class="btn btn-warning" type="button" value="Delete" v-if="isLogin" @click="deleteArticle">
+      <input id="BtnEditArticle" class="btn btn-warning" type="button" value="Edit" v-if="isLogin" @click="goTo($route.path.split('/',3).join('/')+'/edit')">
+      <input id="BtnEditTag" class="btn btn-warning" type="button" v-if="isLogin" value="Edit Tags" @click="goTo($route.path.split('/',3).join('/')+'/editTag')"><br><br>
+      
+      <h2 id="Articletitle">{{articleTitle}}</h2>
+      <div id="tagMsg">所属标签：
+        <ul v-if="tempDatas != undefined">
+          <li v-for="data in tempDatas" id="tag">{{ data.tag_name}}</li>
+        </ul>
+          <div v-else style="display: inline;">无</div>
+      </div><hr style="height: 1px;">
+
       <transition name="fade"> 
         <div id="articleAlertMsg" class="alert alert-info" v-if="alertSuccess">{{ successMsg }}</div>
         <div id="articleAlertMsg" class="alert alert-danger" v-if="alertWarning">{{ wanrningMsg }}</div>
       </transition><br>
-      <div id="tagMsg">所属标签：
-        <ul>
-          <li v-for="data in tempDatas" id="tag">{{ data.tag_name}}</li>
-        </ul>
-      </div>
       <div v-html="html"  id="ArticleContent"></div>
-    </div>
   </div>
   
 </div>
@@ -43,6 +57,7 @@
 <script>
 import api from '../../api.js'
 import showdown from 'showdown'
+import store from '../../store'
 export default {
   name: 'reader',
   data: function(){
@@ -52,7 +67,9 @@ export default {
       articleId: 0,
       successMsg: '',
       wanrningMsg: '',
-      html: ''
+      html: '',
+      num: 0,
+      min: 0
     }
   },
   components: {
@@ -72,11 +89,46 @@ export default {
       } else {
         return false
       }
+    },
+    isLogin: function () {
+      let isLoginState = JSON.parse(store.getters.getEditorText)
+      return isLoginState
     }
   },
   methods:{
-    goTo: function (routes) {
-        this.$router.push(routes)
+    next: function () {
+      let NextId = 0
+      let opt = {
+        articleId: this.articleId
+      }
+      //计算下一篇文章的ID（删除后ID可能不连续）
+      api.nextArticle(opt).then(({
+        data
+      }) => {
+        if (data.success) {
+          NextId = data.data.article_id
+          this.$router.push(this.$route.path.split('/',2).join('/')+'/'+NextId+'/read')
+          this.$router.go(0)
+        }
+      })
+      //console.log(this.$route.path.split('/',2)+'/'+NextId+'/read')
+      },
+    last: function () {
+      let LastId = 0
+      let opt = {
+        articleId: this.articleId
+      }
+      //计算上一篇文章的ID（删除后ID可能不连续）
+      api.lastArticle(opt).then(({
+        data
+      }) => {
+        if (data.success) {
+          console.log(data)
+          LastId = data.data.article_id
+          this.$router.push(this.$route.path.split('/',2).join('/')+'/'+LastId+'/read')
+          this.$router.go(0)
+        }
+      })
       },
     //删除文章
     deleteArticle: function(){
@@ -100,6 +152,11 @@ export default {
           })
       }
     },
+    // 登出函数
+    doLogout: function () {
+      store.dispatch('removeEditorText')
+      this.$router.go(0)
+    },
     setSuccessMsg: function ( msg ){
       this.successMsg = msg
       setTimeout(function() {this.successMsg = ''}.bind(this), 3000)
@@ -107,6 +164,9 @@ export default {
     setWarningMsg: function ( msg ) {
       this.wanrningMsg = msg
       setTimeout(function() {this.wanrningMsg = ''}.bind(this), 3000)
+    },
+    goTo: function (routes) {
+      this.$router.push(routes)
     }
    },
   mounted: function(){
@@ -114,6 +174,23 @@ export default {
       let opt = {
         articleId: this.articleId
       }
+      //获取当前文章的最大序号，方便Next按钮的显示内容转换
+      api.getArticleNumber().then(({
+        data
+      }) => {
+        if (data.success) {
+          this.num = data.data
+        }
+      })
+      //获取当前文章的最小序号，方便Last按钮的显示内容转换
+      api.getArticleMinNumber().then(({
+        data
+      }) => {
+        if (data.success) {
+          this.min = data.data
+        }
+      })
+      //获取文章的内容
       api.getArticleContent(opt).then(({
         data
       }) => {
@@ -124,12 +201,11 @@ export default {
           this.html = converter.makeHtml(text)
         }
       })
+      //获取当前文章所有的标签
       api.showTagofArticle(opt).then(({
         data
       }) => {
-        if (data.success) {
           this.tempDatas = data.data
-        }
       })
     }
 }
@@ -219,6 +295,21 @@ div, li, .btn, .btn-hover {
 
 #tagMsg li{
   padding-right: 5px;
+}
+
+#BtnLastArticle, #BtnNextArticle{
+  display: inline;
+  float: right;
+}
+
+#BtnLastArticle{
+  margin-right: 5px; 
+}
+
+#BtnDeleteArticle, #BtnEditArticle, #BtnEditTag {
+  display: inline;
+  float: right;
+  margin-right: 5px;
 }
 
 blockquote {

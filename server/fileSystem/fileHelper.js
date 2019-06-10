@@ -102,6 +102,28 @@ const getFileNumber = (req, res) => {
 	})
 }
 
+// 获取目前文章最小序号数
+const getFileMinNumber = (req, res) => {
+
+	let queryString = {
+		sql: 'SELECT min(article_id) as solution FROM articles',
+		timeout: 40000
+	}
+
+	db.query(queryString, function (error, results, fields) {
+		if (error) {
+
+		} else {
+			res.json({
+				info: 200,
+				success: true,
+				data: results[0].solution
+			});
+		}
+	})
+}
+
+
 // 储存指定id与title文章的内容
 // 先DB后文件系统，可能存在由于文件储存失败而导致的id占用问题
 // 导致后续文件也存储失败
@@ -224,12 +246,12 @@ const getFileContent = (req, res) => {
 
 // 删除指定id的文章
 const deleteFile = (req, res) => {
-	let queryString = {
+	let queryString1 = {
 		sql: 'DELETE FROM articles WHERE `article_id`=?',
 		values: [[req.body.articleId]],
 		timeout: 40000
 	}
-	db.query(queryString, function(error, results, fields) {
+	db.query(queryString1, function(error, results, fields) {
 		if (error) {
 			console.log(error)
 			res.json({
@@ -238,6 +260,12 @@ const deleteFile = (req, res) => {
 				message: 'DB Fault.'
 			})	
 		} else {
+			let queryString2 = {
+				sql: 'DELETE FROM tag_relationship WHERE `article_id`=?',
+				values: [[req.body.articleId]],
+				timeout: 40000
+			}
+			db.query(queryString2, function(error, results, fields) {})
 			let filename = '../file/' + req.body.articleId + ' - ' + req.body.articleTitle + '.md'
 			//删除文件
 			fs.unlink(filename,function(error){
@@ -262,6 +290,52 @@ const deleteFile = (req, res) => {
 	})
 }
 
+// 获取目前文的下一篇
+//由于articleid为自动编号，所以在删除了中间的文章后，article不连续
+const nextFile = (req, res) => {
+
+	let queryString = {
+		sql: 'select article_id from articles where article_id = (select min(article_id) from articles where article_id > ?)',
+		values: [[req.body.articleId]],
+		timeout: 40000
+	}
+
+	db.query(queryString, function (error, results, fields) {
+		if (error) {
+			console.log(error)
+		} else {
+			res.json({
+				info: 200,
+				success: true,
+				data: results[0]
+			});
+		}
+	})
+}
+
+// 获取目前文章序号数上一篇
+const lastFile = (req, res) => {
+
+	let queryString = {
+		sql: 'select article_id from articles where article_id = (select max(article_id) from articles where article_id < ?)',
+		values: [[req.body.articleId]],
+		timeout: 40000
+	}
+
+	db.query(queryString, function (error, results, fields) {
+		if (error) {
+			console.log(error)
+		} else {
+			console.log(results[0])
+			res.json({
+				info: 200,
+				success: true,
+				data: results[0]
+			});
+		}
+	})
+}
+
 
 module.exports = (router) => {
 
@@ -271,6 +345,8 @@ module.exports = (router) => {
 
 	router.post('/getFileNumber', getFileNumber);
 
+	router.post('/getFileMinNumber', getFileMinNumber);
+
 	router.post('/saveFileContent', saveFileContent);
 
 	router.post('/updateFileContent', updateFileContent);
@@ -278,5 +354,9 @@ module.exports = (router) => {
 	router.post('/getFileContent', getFileContent);
 
 	router.post('/deleteFile', deleteFile);
+
+	router.post('/nextFile', nextFile);
+
+	router.post('/lastFile', lastFile);
 	
 }

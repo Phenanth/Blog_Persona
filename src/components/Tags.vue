@@ -16,8 +16,10 @@
           <li class="list-group-item" @click="goTo('/tags')"><a class="card-link">Tag</a></li>
        </ul>
       <div class="card-body">
-        <a @click="goTo('/login')" class="badge badge-warning">Login</a>
-        <a href="https://github.com/Phenanth/Blog_Persona" class="badge badge-light">Git</a>
+        <!-- 登录与不登录显示不同内容 -->
+		<a v-if="isLogin" @click="doLogout()" class="badge badge-warning">Logout</a>
+		<a v-else @click="goTo('/login')" class="badge badge-warning">Login</a>
+		<a href="https://github.com/Phenanth/Blog_Persona" class="badge badge-light">Git</a>
       </div>
     </div>
   </div>
@@ -46,6 +48,7 @@
 </template>
 <script>
 import api from '../api.js'
+import store from '../store'
 export default {
 name: 'tags',
 data: function () {
@@ -56,6 +59,12 @@ data: function () {
 		tag_id: 0,
 		tag_name: '',
 		articlenum: 0
+	}
+},
+computed: {
+	isLogin: function () {
+		let isLoginState = JSON.parse(store.getters.getEditorText)
+		return isLoginState
 	}
 },
 methods: {
@@ -79,7 +88,23 @@ methods: {
 				}	
 			})
   		}
-  	}
+  	},
+  	// 登出函数
+	doLogout: function () {
+		store.dispatch('removeEditorText')
+		this.$router.go(0)
+	},
+	sortRule: function (a, b) {
+			let timeA = a["num"]
+			let timeB = b["num"]
+			if (timeA < timeB) {
+				return 1
+			} else if (timeA > timeB) {
+				return -1
+			} else {
+				return 0
+			}
+	},
 },
 mounted: function () {
 	let num = []
@@ -103,6 +128,7 @@ mounted: function () {
 				obj.push(data.data[i])
 			}
 			//console.log(obj)
+			obj = obj.sort(this.sortRule)
 			this.tempDatas = obj
 			this.taglength = data.data.length;
 		}
@@ -190,7 +216,7 @@ li {
 #tags #tag{
 	margin-top: 40px;
 	background-color: #d1ecf1;
-	margin-left: 50px;
+	margin-left: 15px;
 	line-height: 50px;
 	text-align: center;
 	display: inline-block;
@@ -198,7 +224,7 @@ li {
 	font-size: 22px;
 	font-weight: 450;
 	padding: 5px 5px 5px 40px;
-	border-radius: 25px;
+	border-radius: 5px;
 }
 
 #tags #tag:hover{

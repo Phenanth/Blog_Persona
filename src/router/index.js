@@ -10,6 +10,7 @@ import Article from '@/components/Article/Article'
 import List from '@/components/Article/Article-List'
 import Reader from '@/components/Article/Article-Reader'
 import Editor from '@/components/Article/Article-Editor'
+import EditTag from '@/components/Article/Article-EditTag'
 
 Vue.use(Router)
 
@@ -90,6 +91,26 @@ export default new Router({
 						next()
 					} else {
 						next('/list')
+					}
+				})
+			}
+		},
+		{
+			path: 'editTag',
+			name: 'EditTag',
+			component: EditTag,
+			beforeEnter: (to, from, next) => {
+				// 需要检验文章是否存在
+				let opt = {
+					articleId: to.params.articleId
+				}
+				api.getArticleState(opt).then(({
+					data
+				}) => {
+					if (data.data) {
+						next()
+					} else {
+						next('/read')
 					}
 				})
 			}

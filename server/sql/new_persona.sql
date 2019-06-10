@@ -61,7 +61,7 @@ CREATE TABLE `tags` (
 
 LOCK TABLES `tags` WRITE;
 /*!40000 ALTER TABLE `tags` DISABLE KEYS */;
-INSERT INTO tags (tag_name) VALUES ('能化'),('股市'),('经济'),('公司'),('要闻');
+INSERT INTO tags (tag_name) VALUES ('能化'),('股市'),('经济'),('公司'),('要闻'),('Java'),('其他');
 /*!40000 ALTER TABLE `tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +86,7 @@ CREATE TABLE `tag_relationship` (
 
 LOCK TABLES `tag_relationship` WRITE;
 /*!40000 ALTER TABLE `tag_relationship` DISABLE KEYS */;
-INSERT INTO tag_relationship (article_id, tag_id) VALUES (5,1),(6,2);
+INSERT INTO tag_relationship (article_id, tag_id) VALUES (1,7),(2,7);
 /*!40000 ALTER TABLE `tag_relationship` ENABLE KEYS */;
 UNLOCK TABLES;
 

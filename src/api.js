@@ -72,6 +72,10 @@ export default {
 		return instance.post('/api/getFileNumber', data)
 	},
 
+	getArticleMinNumber ( data ) {
+		return instance.post('/api/getFileMinNumber', data)
+	},
+
 	saveEditorText ( data ) {
 		return instance.post('/api/saveFileContent', data)
 	},
@@ -84,6 +88,14 @@ export default {
 		return instance.post('/api/deleteFile', data)
 	},
 
+	nextArticle ( data ) {
+		return instance.post('/api/nextFile', data)
+	},
+
+	lastArticle ( data ) {
+		return instance.post('/api/lastFile', data)
+	},
+
 	// 这里开始是tag相关api
 	getTags (data) {
 		return instance.post('/api/getTags', data)
@@ -94,11 +106,11 @@ export default {
 	},
 
 	addTag (data) {
-		return instance.post('/api/getTags', data)
+		return instance.post('/api/addTag', data)
 	},
 
 	deleteTag (data) {
-		return instance.post('/api/getTags', data)
+		return instance.post('/api/deleteTag', data)
 	},
 
 	getTagArticlelist (data) {
@@ -107,6 +119,26 @@ export default {
 
 	showTagofArticle (data) {
 		return instance.post('/api/showTagofArticle', data)
+	},
+
+	getTagNumber (data) {
+		return instance.post('/api/getTagNumber', data)
+	},
+
+	getTagReExistenceState (data) {
+		return instance.post('/api/getTagReExistenceState', data)
+	},
+
+	getTagExistenceState (data) {
+		return instance.post('/api/getTagExistenceState', data)
+	},
+
+	addTagByName (data) {
+		return instance.post('/api/addTagByName', data)
+	},
+
+	getTagIDByName (data) {
+		return instance.post('/api/getTagIDByName', data)
 	}
 
 }
