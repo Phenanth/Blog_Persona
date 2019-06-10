@@ -50,6 +50,7 @@
         <div id="articleAlertMsg" class="alert alert-danger" v-if="alertWarning">{{ wanrningMsg }}</div>
       </transition><br>
       <div v-html="html"  id="ArticleContent"></div>
+      <input type="button" value="Top" @click="BackToTop" id="btnGoTop">
   </div>
   
 </div>
@@ -96,6 +97,10 @@ export default {
     }
   },
   methods:{
+    BackToTop: function(){
+      document.body.scrollTop = 0
+      document.documentElement.scrollTop = 0
+    },
     next: function () {
       let NextId = 0
       let opt = {
@@ -283,9 +288,9 @@ div, li, .btn, .btn-hover {
 
 #read-head {
   display: inline-block;
-    height: 100%;
-    padding: 20px;
-    background-color: white;
+  height: 100%;
+  padding: 20px;
+  background-color: white;
 }
 
 #tagMsg ul, #tagMsg li{
@@ -400,5 +405,16 @@ pre {
   line-height: 1.45;
   background-color: #f6f8fa;
   border-radius: 3px;
+}
+
+#btnGoTop {
+  width: 60px;
+  height: 55px;
+  background-color: #17a2b8; 
+  color: white;
+  font-size:22px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 }
 </style>
