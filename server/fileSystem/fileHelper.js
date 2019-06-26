@@ -14,6 +14,9 @@ const db = require('../db/connect.js');
 
 const fs = require('fs');
 
+const filehead = '/home/Project/app_persona/file/'
+const filehead_dev = filehead
+
 // 获取所有文件一览，带分页
 // 文件的命名标准: id - title
 // 返回由创建时间从新到旧的id和title组成的页内文章数个数的数组
@@ -142,7 +145,7 @@ const saveFileContent = (req, res) => {
 				message: 'DB Fault.'
 			})	
 		} else {
-			let filename = '../file/' + req.body.id + ' - ' + req.body.title + '.md'
+			let filename = filehead + req.body.id + ' - ' + req.body.title + '.md'
 			fs.writeFile(filename, req.body.text, function(error) {
 				if (error) {
 					console.log(error)
@@ -177,7 +180,7 @@ const updateFileContent = (req, res) => {
 		if (error) {
 			console.log(error)
 		} else {
-			let filename = '../file/' + req.body.id + ' - ' + req.body.title + '.md'
+			let filename = filehead + req.body.id + ' - ' + req.body.title + '.md'
 			fs.writeFile(filename, req.body.text, function(error) {
 				if (error) {
 					console.log(error)
@@ -220,7 +223,7 @@ const getFileContent = (req, res) => {
 			if (results[0]) {
 				// 这边对于文件存储的位置需要改成绝对位置
 				// 否则会因为脚本运行的路径不同而出错的
-				let filename = '../file/' + results[0].article_id + ' - ' + results[0].article_title + '.md'
+				let filename = filehead + results[0].article_id + ' - ' + results[0].article_title + '.md'
 				fs.readFile(filename, 'utf-8', function(err, data) {
 					if (err) {
 						console.log(err)
@@ -266,7 +269,7 @@ const deleteFile = (req, res) => {
 				timeout: 40000
 			}
 			db.query(queryString2, function(error, results, fields) {})
-			let filename = '../file/' + req.body.articleId + ' - ' + req.body.articleTitle + '.md'
+			let filename = filehead + req.body.articleId + ' - ' + req.body.articleTitle + '.md'
 			//删除文件
 			fs.unlink(filename,function(error){
 			    if(error){

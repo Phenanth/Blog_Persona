@@ -135,6 +135,9 @@ export default {
 					}) => {
 						if (data.success) {
 							this.setSuccessMsg('Updated.')
+						} else {
+							// console.log(data)
+							this.setWarningMsg(data.message)
 						}
 					})
 				}

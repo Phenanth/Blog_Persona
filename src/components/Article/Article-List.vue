@@ -27,14 +27,20 @@
 	<!-- 文章列表 -->
 	<div id="articleList" class="col-md-6 col-12">
     	<!-- 留言用 -->
- 		<div class="personaSticker alert alert-info" role="alert">
-	  		<h4 class="alert-heading">留言条（第二版）</h4>
+ 		<!-- <div class="personaSticker alert alert-info" role="alert">
+	  		<h4 class="alert-heading">留言条</h4>
 	  		<hr>
-	  		<p>登录前后页面需要更改的地方：</p>
-	  		<p>1. Login/Logout按钮之间的切换</p>
-	  		<p>2. 一些登录后才能使用的功能，应该在未登录状态下在界面上隐藏。</p>
-	  		<p>阅读器还有一些优化的地方，辛苦啦。</p>
-		</div>
+	  		<p>页面UI优化：</p>
+	  		<p>1. 文章数过多导致的List页面元素的位置偏移</p>
+	  		<p>2. CARD页提成上一层逻辑</p>
+	  		<p>3. 回到顶端按钮的UI美化</p>
+	  		<p>4. 阅读器在内容未加载完成时对页面文档位置留空</p>
+	  		<p>有待添加功能：</p>
+	  		<p>1. 登录采用Google Authentication</p>
+	  		<p>2. 标签实现文章分类</p>
+	  		<p>3. 根据创建时间/更改时间进行文章排序</p>
+	  		<p>之后还需要对程序进行服务器部署。</p>
+		</div> -->
 		<div class="row">
 			<!-- 登录后才显示新建文章按钮 -->
 			<input v-if="isLogin" id="" class="btn btn-warning col-2 offset-9" type="button" value="New" @click="createNewArticle()"></input>
