@@ -3,7 +3,7 @@
 <div id="editor">
 	<div class="editor-head-bar row">
 		<div class="col-md-11 col-lg-10 row">
-			<input id="articleBtnGoList" class="btn btn-info col-xl-1 col-md-2 col-3" type="button" value="Back" @click="goTo('/list')">
+			<input id="articleBtnGoList" class="btn btn-outline-info col-xl-1 col-md-2 col-3" type="button" v-model:value="comleteBtnText" @click="saveAndGoRead()">
 			<transition name="fade"> 
 				<div id="articleAlertMsg" class="alert alert-info offset-1" v-if="alertSuccess">{{ successMsg }}</div>
 				<div id="articleAlertMsg" class="alert alert-danger offset-1" v-if="alertWarning">{{ wanrningMsg }}</div>
@@ -15,7 +15,7 @@
 		</div>
 	</div>
 	<!-- 编辑器组件与属性的配置，具体的api见mavon-editor的api说明，或者node_modules中插件源代码props与events部分 -->
-	<mavon-editor class="col-lg-10 col-12 offset-lg-1" style="height: 90%; " :toolbars="toolbarsValue" @save="saveMavon" :value="editorText"></mavon-editor>
+	<mavon-editor class="col-lg-10 col-12 offset-lg-1" style="height: 90%; " :toolbars="toolbarsValue" @save="saveMavon" :value="editorText" ref="vNoteEdit"></mavon-editor>
 </div>
 </template>
 <script>
@@ -95,6 +95,13 @@ export default {
 			} else {
 				return false
 			}
+		},
+		comleteBtnText: function () {
+			if (this.articleTitle == '') {
+				return 'Return'
+			} else {
+				return 'Complete'
+			}
 		}
 	},
 	methods: {
@@ -102,6 +109,9 @@ export default {
 		saveMavon: function (value, render) {
 			// console.log('this is render,' + render)
 			// console.log('this is value,' + value)
+			// let child = this.$refs.vNoteEdit
+			// console.log('keys, ' + Object.keys(child)) // 查看对象的key都有哪些
+			// console.log('d_value, ' + child['d_value']) // si都没想到是这样获取值的
 
 			if (this.articleTitle == '') {
 				this.setWarningMsg('You haven\'t input the title!')
@@ -144,6 +154,16 @@ export default {
 			   
 			}
 			
+		},
+		saveAndGoRead: function () {
+			// 使用refs调用mavon-editor组件内方法和获取data
+			let textAreaObj = this.$refs.vNoteEdit
+			if (this.articleTitle == '') {
+				this.goTo('/list')
+			} else {
+				textAreaObj.save(textAreaObj['d_value'], '')
+				this.goTo(/article/ + this.articleId.toString() + '/read')
+			}
 		},
 		formattedTimeString : function () {
 			let d = new Date()

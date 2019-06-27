@@ -112,10 +112,11 @@ mounted: function () {
 		data
 	}) => {
 		if (data.success) {
-			for (let i = 0; i < data.data.length; i++) {
-				num.push(data.data[i].num)
-				this.num=num
-			}
+			if (data.data) 
+				for (let i = 0; i < data.data.length; i++) {
+					num.push(data.data[i].num)
+					this.num=num
+				}
 		}
 	})
 	api.getTags().then(({
@@ -168,7 +169,7 @@ li {
 }
 
 .badge {
-  width: 50px;
+  width: 40px;
   height: 20px;
 }
 

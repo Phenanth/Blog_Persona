@@ -1,4 +1,11 @@
 'use strict'
+/*
+开发调整项：
+/db/connect.js的账号、host、db
+/fileSystem/fileHelper.js的file头
+前端：
+/config/index.js的代理地址
+*/
 
 const Express = require('express');
 const BodyParser = require('body-parser');

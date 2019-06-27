@@ -8,7 +8,7 @@ RUN npm install
 
 COPY ./server /home/Project/app_persona
 
-EXPOSE 3000
+EXPOSE 3010
 
 RUN mkdir -p /home/Project/app_persona/file
 COPY ./file /home/Project/app_persona/file

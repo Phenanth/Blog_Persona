@@ -15,7 +15,7 @@ const db = require('../db/connect.js');
 const fs = require('fs');
 
 const filehead = '/home/Project/app_persona/file/'
-const filehead_dev = filehead
+// const filehead = '../file/'
 
 // 获取所有文件一览，带分页
 // 文件的命名标准: id - title

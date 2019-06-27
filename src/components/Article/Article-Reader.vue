@@ -25,17 +25,18 @@
   </div>
   <div id="read-head" class="col-md-6 col-12">
       <!--按钮-->
-      <input id="articleBtnGoList" class="btn btn-info col-xl-1 col-md-2 col-3" type="button" value="Back" @click="goTo('/list')">
-      <!--根据是否为第一篇文章显示不同内容-->
-      <input type="button" v-if="articleId != num" class="btn btn-info" value="Next" id="BtnNextArticle" @click="next">
-      <input type="button" v-else class="btn btn-info" value="Next" id="BtnNextArticle" @click="next" disabled>
-      <!--根据是否为最后一篇文章显示不同内容-->
-      <input  v-if="articleId != min" id="BtnLastArticle" class="btn btn-info" value="Last" type="button" @click="last">
-      <input  v-else id="BtnLastArticle" class="btn btn-info" value="Last" type="button" @click="last" disabled>
+      <input id="articleBtnGoList" class="btn btn-outline-info col-xl-1 col-md-2 col-3" type="button" value="Back" @click="goTo('/list')">
+      <!-- 根据是否为第一篇文章显示不同内容
+      <input type="button" v-if="articleId != num" class="btn btn-outline-info" value="Next" id="BtnNextArticle" @click="next">
+      <input type="button" v-else class="btn btn-outline-info" value="Next" id="BtnNextArticle" @click="next" disabled>
+      根据是否为最后一篇文章显示不同内容
+      <input  v-if="articleId != min" id="BtnLastArticle" class="btn btn-outline-info" value="Last" type="button" @click="last">
+      <input  v-else id="BtnLastArticle" class="btn btn-outline-info" value="Last" type="button" @click="last" disabled> -->
       <!--编辑按钮-->
-      <input id="BtnDeleteArticle" class="btn btn-warning" type="button" value="Delete" v-if="isLogin" @click="deleteArticle">
-      <input id="BtnEditArticle" class="btn btn-warning" type="button" value="Edit" v-if="isLogin" @click="goTo($route.path.split('/',3).join('/')+'/edit')">
-      <input id="BtnEditTag" class="btn btn-warning" type="button" v-if="isLogin" value="Edit Tags" @click="goTo($route.path.split('/',3).join('/')+'/editTag')"><br><br>
+      
+      <input id="BtnDeleteArticle" class="btn btn-outline-danger" type="button" value="Delete" v-if="isLogin" @click="deleteArticle">
+      <input id="BtnEditArticle" class="btn btn-outline-warning" type="button" value="Edit" v-if="isLogin" @click="goTo($route.path.split('/',3).join('/')+'/edit')">
+      <input id="BtnEditTag" class="btn btn-outline-warning" type="button" v-if="isLogin" value="Edit Tags" @click="goTo($route.path.split('/',3).join('/')+'/editTag')"><br><br>
       
       <h2 id="Articletitle">{{articleTitle}}</h2>
       <div id="tagMsg">所属标签：
@@ -50,7 +51,18 @@
         <div id="articleAlertMsg" class="alert alert-danger" v-if="alertWarning">{{ wanrningMsg }}</div>
       </transition><br>
       <div v-html="html"  id="ArticleContent"></div>
-      <input type="button" value="Top" @click="BackToTop" id="btnGoTop">
+
+      <div class="dropdown-divider"></div>
+
+      <!-- 文章底部翻页 -->
+      <div id="page-btns" class="btn-group col-4 offset-4" role="group" aria-label="Basic">
+        <button type="button" v-if="articleId != min" class="btn btn-outline-info" @click="last">Prev</button>
+        <button type="button" v-else class="btn btn-outline-info" disabled>Prev</button>
+        <button type="button" v-if="articleId != num" class="btn btn-outline-info" @click="next" >Next</button>
+        <button type="button" v-else class="btn btn-outline-info" disabled="">Next</button>
+      </div>
+
+      <img value="" src="../../../static/svg/arrowup.svg" @click="BackToTop" id="btnGoTop">
   </div>
   
 </div>
@@ -218,6 +230,10 @@ export default {
 </script>
 <style>
 li {
+  list-style: circle;
+}
+
+.list-group > li {
   list-style: none;
 }
 
@@ -284,6 +300,16 @@ div, li, .btn, .btn-hover {
 
 #reader #ArticleContent{
   padding:2% 7% 2% 7%;
+}
+
+#page-btns {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.card-body > a {
+  font-size: 8px;
+  line-height: 16px;
 }
 
 #read-head {
@@ -408,13 +434,16 @@ pre {
 }
 
 #btnGoTop {
-  width: 60px;
-  height: 55px;
-  background-color: #17a2b8; 
-  color: white;
-  font-size:22px;
+  background-color: lightgray;
+  width:4vh;
+  height:4vh;
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 40px;
+  right: 40px;
 }
+
+#btnGoTop:hover {
+  background-color: gray;
+}
+
 </style>

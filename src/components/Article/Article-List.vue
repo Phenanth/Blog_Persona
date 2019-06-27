@@ -43,7 +43,7 @@
 		</div> -->
 		<div class="row">
 			<!-- 登录后才显示新建文章按钮 -->
-			<input v-if="isLogin" id="" class="btn btn-warning col-2 offset-9" type="button" value="New" @click="createNewArticle()"></input>
+			<input v-if="isLogin" id="" class="btn btn-outline-warning col-2 offset-9" type="button" value="New" @click="createNewArticle()"></input>
 		</div>
     	<!-- 绑定key标签可以去掉框架的警告 -->
    		<div class="col-md-10 offset-md-1">
@@ -139,9 +139,15 @@ export default {
 }
 </script>
 <style>
+
 li {
+	list-style: circle;
+}
+
+.list-group > li {
 	list-style: none;
 }
+
 html, body {
     background-color: #EEE;
     width: 100%;
@@ -211,13 +217,18 @@ div, li, .btn, .btn-hover {
 	color: orange;
 }
 
+.card-body > a {
+	font-size: 8px;
+	line-height: 16px;
+}
+
 .btn-newArticle {
 	margin-right: 10px;
 }
 
 #articleList {
 	height: 100%;
-	padding: 48px 24px 48px 24px;
+	padding: 48px 24px 130px 24px;
     background-color: white;
 }
 
