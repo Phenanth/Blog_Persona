@@ -12,8 +12,8 @@
 
       </div>
       <ul class="list-group list-group-flush">
-          <li class="list-group-item" @click="goTo('/list')"><a class="card-link">List</a></li>
-          <li class="list-group-item" @click="goTo('/tags')"><a class="card-link">Tag</a></li>
+          <li class="list-group-item" @click="goTo('/list')"><a class="card-link">首页</a></li>
+          <li class="list-group-item" @click="goTo('/tags')"><a class="card-link">标签一览</a></li>
        </ul>
       <div class="card-body">
         <!-- 登录与不登录显示不同内容 -->
@@ -37,8 +37,12 @@
       <input id="BtnDeleteArticle" class="btn btn-outline-danger" type="button" value="Delete" v-if="isLogin" @click="deleteArticle">
       <input id="BtnEditArticle" class="btn btn-outline-warning" type="button" value="Edit" v-if="isLogin" @click="goTo($route.path.split('/',3).join('/')+'/edit')">
       <input id="BtnEditTag" class="btn btn-outline-warning" type="button" v-if="isLogin" value="Edit Tags" @click="goTo($route.path.split('/',3).join('/')+'/editTag')"><br><br>
-      
+
       <h2 id="Articletitle">{{articleTitle}}</h2>
+      <!-- Spinner -->
+      <div v-if="!isLoaded" id="reader-spinner" class="spinner-border text-warning offset-md-5" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
       <div id="tagMsg">所属标签：
         <ul v-if="tempDatas != undefined">
           <li v-for="data in tempDatas" id="tag">{{ data.tag_name}}</li>
@@ -50,7 +54,7 @@
         <div id="articleAlertMsg" class="alert alert-info" v-if="alertSuccess">{{ successMsg }}</div>
         <div id="articleAlertMsg" class="alert alert-danger" v-if="alertWarning">{{ wanrningMsg }}</div>
       </transition><br>
-      <div v-html="html"  id="ArticleContent"></div>
+      <div v-html="html" id="ArticleContent"></div>
 
       <div class="dropdown-divider"></div>
 
@@ -75,14 +79,15 @@ export default {
   name: 'reader',
   data: function(){
     return{
-      tempDatas: [],
-      articleTitle: '',
+      tempDatas: [{'tag_id': 0, 'tag_name': '无标题'}],
+      articleTitle: '文章标题',
       articleId: 0,
       successMsg: '',
       wanrningMsg: '',
-      html: '',
+      html: '<h1>文章标题</h1><blockquote>文章内容</blockquote>',
       num: 0,
-      min: 0
+      min: 0,
+      isLoaded: false
     }
   },
   components: {
@@ -107,6 +112,13 @@ export default {
       let isLoginState = JSON.parse(store.getters.getEditorText)
       return isLoginState
     }
+    // isLoaded: function () {
+    //   if (this.articleId != 0) {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // }
   },
   methods:{
     BackToTop: function(){
@@ -216,6 +228,7 @@ export default {
           let converter = new showdown.Converter()
           let text = data.data.toString()
           this.html = converter.makeHtml(text)
+          this.isLoaded = true
         }
       })
       //获取当前文章所有的标签
@@ -229,13 +242,13 @@ export default {
 
 </script>
 <style>
-li {
+/*li {
   list-style: circle;
 }
 
 .list-group > li {
   list-style: none;
-}
+}*/
 
 html, body , .article-index{
   margin: 0px;
@@ -253,6 +266,8 @@ div, li, .btn, .btn-hover {
 
 .list-group > li {
   color: black;
+  display: flex;
+  justify-content: space-between;
 }
 
 .list-group > li:hover {
@@ -300,6 +315,30 @@ div, li, .btn, .btn-hover {
 
 #reader #ArticleContent{
   padding:2% 7% 2% 7%;
+}
+
+#reader-spinner {
+  position: fixed;
+}
+
+#ArticleContent > h1 {
+  font-size: 30px;
+}
+
+#ArticleContent > h2 {
+  font-size: 24px;
+}
+
+#ArticleContent > h3 {
+  font-size: 22px;
+}
+
+#ArticleContent > h4 {
+  font-size: 20px;
+}
+
+#ArticleContent > h5 {
+  font-size: 18px;
 }
 
 #page-btns {
@@ -435,11 +474,11 @@ pre {
 
 #btnGoTop {
   background-color: lightgray;
-  width:4vh;
-  height:4vh;
+  width:30px;
+  height:30px;
   position: fixed;
-  bottom: 40px;
-  right: 40px;
+  bottom: 30px;
+  right: 30px;
 }
 
 #btnGoTop:hover {

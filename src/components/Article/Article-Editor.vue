@@ -8,6 +8,10 @@
 				<div id="articleAlertMsg" class="alert alert-info offset-1" v-if="alertSuccess">{{ successMsg }}</div>
 				<div id="articleAlertMsg" class="alert alert-danger offset-1" v-if="alertWarning">{{ wanrningMsg }}</div>
 			</transition>
+			<!-- Spinner -->
+		  <div v-if="!isLoaded" id="editor-spinner" class="spinner-border text-info offset-md-1" role="status">
+		    <span class="sr-only">Loading...</span>
+		  </div>
 			<div class="editor-input col-md-3 col-4">
 				<small>Title:</small>
 				<input class="form-control" type="text" v-model="articleTitle" placeholder="Input title here...">
@@ -78,7 +82,8 @@ export default {
 			editorText: '',
 			documentCreateTime: '',
 			successMsg: '',
-			wanrningMsg: ''
+			wanrningMsg: '',
+			isLoaded: false
 		}
 	},
 	computed: {
@@ -223,6 +228,7 @@ export default {
 					this.firstEdit = true
 					this.documentCreateTime = this.formattedTimeString();
 				}
+				this.isLoaded = true
 				// 在完成了编辑器的保存和读取功能后需要添加这里的逻辑
 				// 比如文章存在的情况下就读取文件系统，系统编辑状态
 				// 文章不存在的情况下，系统处于编辑新建文件状态
@@ -236,6 +242,7 @@ export default {
 }
 </script>
 <style>
+	
 #editor {
 	width: 100%;
 	height: 90vh;
@@ -254,6 +261,10 @@ export default {
 	width: 100%;
 	align-items: flex-end;
 	justify-content: space-between;
+}
+
+#editor-spinner {
+	position: fixed;
 }
 
 #articleAlertMsg {
@@ -275,6 +286,11 @@ export default {
 	flex-direction: column;
 	align-items: flex-start;
 	padding-right: 0px;
+}
+
+.editor-input > small {
+	color: #17a2b8;
+	font-weight: bold;
 }
 
 .fade-enter-active, .fade-leave-active {

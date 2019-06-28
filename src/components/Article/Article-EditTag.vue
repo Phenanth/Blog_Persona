@@ -11,8 +11,8 @@
         <p class="card-text">基于md文档系统与Vue的文章管理系统</p>
       </div>
       <ul class="list-group list-group-flush">
-          <li class="list-group-item" @click="goTo('/list')"><a class="card-link">List</a></li>
-          <li class="list-group-item" @click="goTo('/tags')"><a class="card-link">Tag</a></li>
+          <li class="list-group-item" @click="goTo('/list')"><a class="card-link">首页</a></li>
+          <li class="list-group-item" @click="goTo('/tags')"><a class="card-link">标签一览</a></li>
        </ul>
       <div class="card-body">
         <!-- 登录与不登录显示不同内容 -->
@@ -310,9 +310,13 @@ export default {
 
 </script>
 <style>
-li {
-  list-style: none;
+/*li {
+  list-style: circle;
 }
+
+.list-group > li {
+  list-style: none;
+}*/
 
 html, body , .article-index{
   margin: 0px;
@@ -330,6 +334,8 @@ div, li, .btn, .btn-hover {
 
 .list-group > li {
   color: black;
+  display: flex;
+  justify-content: space-between;
 }
 
 .list-group > li:hover {

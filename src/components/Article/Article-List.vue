@@ -13,9 +13,9 @@
 
 			</div>
 			<ul class="list-group list-group-flush">
-			    <li class="list-group-item" @click="goTo('/list')"><a class="card-link">List</a></li>
-			    <li class="list-group-item" @click="goTo('/tags')"><a class="card-link">Tag</a></li>
-			 </ul>
+	          <li class="list-group-item" v-bind:class="{activeTag: isListActive}" @click="goTo('/list')"><a class="card-link">首页</a><span style="color:#ffc107;">●</span></li>
+	          <li class="list-group-item" v-bind:class="{activeTag: isTagActive}" @click="goTo('/tags')"><a class="card-link">标签一览</a></li>
+	       </ul>
 			<div class="card-body">
 				<!-- 登录与不登录显示不同内容 -->
 				<a v-if="isLogin" @click="doLogout()" class="badge badge-warning">Logout</a>
@@ -42,6 +42,7 @@
 	  		<p>之后还需要对程序进行服务器部署。</p>
 		</div> -->
 		<div class="row">
+			
 			<!-- 登录后才显示新建文章按钮 -->
 			<input v-if="isLogin" id="" class="btn btn-outline-warning col-2 offset-9" type="button" value="New" @click="createNewArticle()"></input>
 		</div>
@@ -49,6 +50,10 @@
    		<div class="col-md-10 offset-md-1">
     		<article-item v-for="data in datas" :id="data.article_id" :title="data.article_title" :createTime="data.create_time" :modifyTime="data.modify_time" :editRoutes="data.editRoutes" :readRoutes="data.readRoutes" :key="data.article_id"></article-item>
     	</div>
+			<!-- Spinner -->
+	    <div v-if="!isLoaded" id="list-spinner" class="spinner-border text-warning offset-md-9" role="status">
+	      <span class="sr-only">Loading...</span>
+	    </div>
  	</div>
 </div>
 </template>
@@ -59,9 +64,13 @@ export default {
 	name: 'list',
 	data: function () {
 		return {
-			tempDatas: [],
+			tempDatas: [{'article_title': 'Title One', 'modify_time': '2019-xx-xx xx:xx'},
+						{'article_title': 'Title Two', 'modify_time': '2019-xx-xx xx:xx'},
+						{'article_title': 'Title Three', 'modify_time': '2019-xx-xx xx:xx'}
+			],
 			active: false,
-			sortBy: 'createTime'
+			sortBy: 'createTime',
+			isLoaded: false
 		}
 	},
 	computed: {
@@ -74,6 +83,18 @@ export default {
 			let isLoginState = JSON.parse(store.getters.getEditorText)
 			return isLoginState
 
+		},
+		isListActive: function () {
+			let pageCheck = new RegExp('/list', 'g')
+			let arr = pageCheck.exec(this.$route.path)
+			if (arr) {
+				return true
+			} else {
+				return false
+			}
+		},
+		isTagActive: function () {
+			return false;
 		}
 	},
 	methods: {
@@ -132,6 +153,7 @@ export default {
 					data.data[i]["readRoutes"] = '/article/' + data.data[i].article_id.toString() + '/read'
 					obj.push(data.data[i])
 					this.tempDatas = obj
+					this.isLoaded = true
 				}
 			}
 		})
@@ -167,11 +189,17 @@ div, li, .btn, .btn-hover {
 }
 
 .list-group > li {
-	color: black;
+  color: black;
+  display: flex;
+  justify-content: space-between;
 }
 
 .list-group > li:hover {
 	color: orange;
+}
+
+#list-spinner {
+	margin-top: 30px;
 }
 
 #list {
@@ -184,6 +212,10 @@ div, li, .btn, .btn-hover {
 	margin-right: 10px;
 	margin-bottom: 10px;
 	min-width: 220px;
+}
+
+.activeTag {
+	background-color: #EEE;
 }
 
 #personaTitle {

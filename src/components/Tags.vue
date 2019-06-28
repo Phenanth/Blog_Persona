@@ -12,8 +12,8 @@
 
       </div>
       <ul class="list-group list-group-flush">
-          <li class="list-group-item" @click="goTo('/list')"><a class="card-link">List</a></li>
-          <li class="list-group-item" @click="goTo('/tags')"><a class="card-link">Tag</a></li>
+          <li class="list-group-item" v-bind:class="{activeTag: isListActive}" @click="goTo('/list')"><a class="card-link">首页</a></li>
+          <li class="list-group-item" v-bind:class="{activeTag: isTagActive}" @click="goTo('/tags')"><a class="card-link">标签一览</a><span style="color:#ffc107;">●</span></li>
        </ul>
       <div class="card-body">
         <!-- 登录与不登录显示不同内容 -->
@@ -28,8 +28,10 @@
 		<div id="tags-list">
 			<h2>Tags</h2><hr>
 			<h4>共计{{taglength}}个标签</h4>
-			<ul>
-			    <li v-for="data in tempDatas" id="tag" :num="data.num" :ArticleListRoutes="data.ArticleListRoutes" :key="data.tag_id" @click="showArticle(data.tag_id,data.tag_name,data.num)">{{ data.tag_name}}<div>{{ data.num}}</div></li>
+			<ul class="list-group col-8 offset-2">
+			    <li class=" list-group-item list-group-item-action d-flex justify-content-between align-items-center" v-for="data in tempDatas" id="tag" :num="data.num" :ArticleListRoutes="data.ArticleListRoutes" :key="data.tag_id" @click="showArticle(data.tag_id,data.tag_name,data.num)">{{ data.tag_name }}
+			    	<div><span class="badge badge-warning badge-pill">{{ data.num }}</span></div>
+			    </li>
 		    </ul>
  		</div><br>
  		<!--属于该标签的文章列表(暂时不做)-->
@@ -65,6 +67,18 @@ computed: {
 	isLogin: function () {
 		let isLoginState = JSON.parse(store.getters.getEditorText)
 		return isLoginState
+	},
+	isListActive: function () {
+		return false;
+	},
+	isTagActive: function () {
+		let pageCheck = new RegExp('/tags', 'g')
+			let arr = pageCheck.exec(this.$route.path)
+			if (arr) {
+				return true
+			} else {
+				return false
+			}
 	}
 },
 methods: {
@@ -143,9 +157,9 @@ html, body {
     width: 100%;
     height: 100%;
 }
-li {
+/*li {
   list-style: none;
-}
+}*/
 
 .btn, .btn-hover {
   transition: color .1s;
@@ -156,6 +170,8 @@ li {
 
 .list-group > li {
   color: black;
+  display: flex;
+  justify-content: space-between;
 }
 
 .list-group > li:hover {
@@ -166,6 +182,10 @@ li {
   position: relative;
   margin-right: 10px;
   margin-bottom: 10px;
+}
+
+.activeTag {
+	background-color: #EEE;
 }
 
 .badge {
@@ -209,12 +229,17 @@ li {
 	height: 1px;
 	width: 85%;
 }
+
+#tags-list > ul {
+	margin-top: 30px;
+}
+
 #tags #tags-list ul{
 	text-align:left;
 	padding-left: 80px;
 	padding-right: 50px;
 }
-#tags #tag{
+/*#tags #tag{
 	margin-top: 40px;
 	background-color: #d1ecf1;
 	margin-left: 15px;
@@ -226,12 +251,12 @@ li {
 	font-weight: 450;
 	padding: 5px 5px 5px 40px;
 	border-radius: 5px;
-}
+}*/
 
-#tags #tag:hover{
+/*#tags #tag:hover{
 	background-color: #17a2b8;
 	cursor: pointer;
-}
+}*/
 
 #tags #tag div{
 	display: inline-block;
