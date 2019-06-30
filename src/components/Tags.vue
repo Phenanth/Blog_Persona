@@ -29,7 +29,7 @@
 			<h2>Tags</h2><hr>
 			<h4>共计{{taglength}}个标签</h4>
 			<ul class="list-group col-8 offset-2">
-			    <li class=" list-group-item list-group-item-action d-flex justify-content-between align-items-center" v-for="data in tempDatas" id="tag" :num="data.num" :ArticleListRoutes="data.ArticleListRoutes" :key="data.tag_id" @click="showArticle(data.tag_id,data.tag_name,data.num)">{{ data.tag_name }}
+			    <li class=" list-group-item list-group-item-action d-flex justify-content-between align-items-center" v-for="data in tempDatas" id="tag" :num="data.num" :ArticleListRoutes="data.ArticleListRoutes" :key="data.tag_id" @click="goTo(data.tag_path)">{{ data.tag_name }}
 			    	<div><span class="badge badge-warning badge-pill">{{ data.num }}</span></div>
 			    </li>
 		    </ul>
@@ -122,6 +122,7 @@ methods: {
 },
 mounted: function () {
 	let num = []
+	let ids = []
 	api.getArticleNumOfTag().then(({
 		data
 	}) => {
@@ -129,6 +130,7 @@ mounted: function () {
 			if (data.data) 
 				for (let i = 0; i < data.data.length; i++) {
 					num.push(data.data[i].num)
+					ids.push(data.data[i].tag_id)
 					this.num=num
 				}
 		}
@@ -140,6 +142,7 @@ mounted: function () {
 			let obj = []
 			for (let i = 0; i < data.data.length; i++) {
 				data.data[i]["num"] = num[i]
+				data.data[i]["tag_path"] = '/tag/' + ids[i].toString() + '/classes'
 				obj.push(data.data[i])
 			}
 			//console.log(obj)

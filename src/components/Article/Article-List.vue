@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <template>
-<div id="list" class="row">
-	<div id="personaBar" class="col-md-2 offset-md-1 offset-lg-2 col-12">
-		<!-- 网站信息卡片 -->
-		<div class="card text-right text-white bg-info mb-3">
+<div id="list" class="col-6">
+	<!--<div id="personaBar" class="col-md-2 offset-md-1 offset-lg-2 col-12">
+		 网站信息卡片
+		 <div class="card text-right text-white bg-info mb-3">
 			
 			<div class="card-body">
-				<!-- 路径下还有一些别的图片可以供展示，还没写好根据日期自动换首页图片的功能...想想而已 -->
+				路径下还有一些别的图片可以供展示，还没写好根据日期自动换首页图片的功能...想想而已 
 				<img src="../../assets/cardPic7.png" class="card-img-top" alt="Card Pic.">
 				<h3 class="card-title">Persona</h3>
 				<p class="card-text">基于md文档系统与Vue的文章管理系统</p>
@@ -17,15 +17,15 @@
 	          <li class="list-group-item" v-bind:class="{activeTag: isTagActive}" @click="goTo('/tags')"><a class="card-link">标签一览</a></li>
 	       </ul>
 			<div class="card-body">
-				<!-- 登录与不登录显示不同内容 -->
+				 登录与不登录显示不同内容 
 				<a v-if="isLogin" @click="doLogout()" class="badge badge-warning">Logout</a>
 				<a v-else @click="goTo('/login')" class="badge badge-warning">Login</a>
 				<a href="https://github.com/Phenanth/Blog_Persona" class="badge badge-light">Git</a>
 			</div>
-		</div>
-	</div>
+		</div> 
+	</div> -->
 	<!-- 文章列表 -->
-	<div id="articleList" class="col-md-6 col-12">
+	<div id="articleList">
     	<!-- 留言用 -->
  		<!-- <div class="personaSticker alert alert-info" role="alert">
 	  		<h4 class="alert-heading">留言条</h4>
@@ -162,14 +162,6 @@ export default {
 </script>
 <style>
 
-li {
-	list-style: circle;
-}
-
-.list-group > li {
-	list-style: none;
-}
-
 html, body {
     background-color: #EEE;
     width: 100%;
@@ -188,30 +180,9 @@ div, li, .btn, .btn-hover {
 	-o-transition: color .1s;	/* Opera */
 }
 
-.list-group > li {
-  color: black;
-  display: flex;
-  justify-content: space-between;
-}
-
-.list-group > li:hover {
-	color: orange;
-}
 
 #list-spinner {
 	margin-top: 30px;
-}
-
-#list {
-    margin: 0px 20px 0px 20px;
-    background-color: #EEE;
-}
-
-#personaBar {
-	position: relative;
-	margin-right: 10px;
-	margin-bottom: 10px;
-	min-width: 220px;
 }
 
 .activeTag {
@@ -305,11 +276,6 @@ div, li, .btn, .btn-hover {
 
 .personaSticker {
 	margin-top: 20px;
-}
-
-.badge {
-	width: 40px;
-	height: 20px;
 }
 
 .btn-warning {

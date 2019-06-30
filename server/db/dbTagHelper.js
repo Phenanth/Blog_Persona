@@ -200,7 +200,7 @@ const deleteTag = (req, res) => {
 // 统计属于每个标签的文章数
 const getArticleNumOfTag = (req, res) => {
 	let queryString = {
-		sql: 'select count(tag_relationship.tag_id) num from tags left join tag_relationship on tags.tag_id=tag_relationship.tag_id group by tags.tag_id; ',
+		sql: 'select count(tag_relationship.tag_id) num, tags.tag_id from tags left join tag_relationship on tags.tag_id=tag_relationship.tag_id group by tags.tag_id; ',
 		timeout: 40000
 	};
 
@@ -232,7 +232,7 @@ const getArticleNumOfTag = (req, res) => {
 const getTagArticlelist = (req, res) => {
 	let queryString = {
 		sql: 'select * from articles where article_id in (select article_id from tag_relationship where tag_id=?)',
-		values: [req.body.articleId],
+		values: [req.body.tagId],
 		timeout: 40000
 	};
 

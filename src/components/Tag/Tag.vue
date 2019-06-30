@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <template>
-<div id="article-index" class="col-6">
+<div id="tag-index" class="row">
     <router-view></router-view>
 </div>
 </template>
 <script>
 export default {
-name: 'article-index'
+name: 'tag-index'
 }
 </script>
 <style>
@@ -14,10 +14,5 @@ html, body {
     background-color: #EEE;
     width: 100%;
     height: 100%;
-}
-#article-index {
-    padding-left: 0px;
-    padding-right: 0px;
-    background-color: #EEE;
 }
 </style>
