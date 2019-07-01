@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <template>
-<div id="article-index" class="col-6">
+<div id="article-index" class="col-md-6 col-12">
     <router-view></router-view>
 </div>
 </template>
@@ -14,10 +14,5 @@ html, body {
     background-color: #EEE;
     width: 100%;
     height: 100%;
-}
-#article-index {
-    padding-left: 0px;
-    padding-right: 0px;
-    background-color: #EEE;
 }
 </style>

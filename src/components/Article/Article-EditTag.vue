@@ -1,30 +1,9 @@
 <!DOCTYPE html>
 <template>
-<div id="editTag" class="row">
-  <div id="personaBar" class="col-md-2 offset-md-2 col-12">
-    <!-- 网站信息卡片 -->
-    <div class="card text-right text-white bg-info mb-3">
-      <div class="card-body">
-        <!-- 路径下还有一些别的图片可以供展示，还没写好根据日期自动换首页图片的功能...想想而已 -->
-        <img src="../../assets/cardPic7.png" class="card-img-top" alt="Card Pic.">
-        <h3 class="card-title">Persona</h3>
-        <p class="card-text">基于md文档系统与Vue的文章管理系统</p>
-      </div>
-      <ul class="list-group list-group-flush">
-          <li class="list-group-item" @click="goTo('/list')"><a class="card-link">首页</a></li>
-          <li class="list-group-item" @click="goTo('/tags')"><a class="card-link">标签一览</a></li>
-       </ul>
-      <div class="card-body">
-        <!-- 登录与不登录显示不同内容 -->
-        <a v-if="isLogin" @click="doLogout()" class="badge badge-warning">Logout</a>
-        <a v-else @click="goTo('/login')" class="badge badge-warning">Login</a>
-        <a href="https://github.com/Phenanth/Blog_Persona" class="badge badge-light">Git</a>
-      </div>
-    </div>
-  </div>
-  <div id="editTag-right" class="col-md-6 col-12">
+<div id="editTag" class="col-12">
+  <div id="editTag-right" class="">
     <div>
-      <input id="articleBtnGoRead" class="btn btn-info col-xl-1 col-md-2 col-3" type="button" value="Back" @click="goTo($route.path.split('/',3).join('/')+'/read')">
+      <input id="articleBtnGoRead" class="btn btn-outline-info col-xl-1 col-md-2 col-3" type="button" value="Back" @click="goTo($route.path.split('/',3).join('/')+'/read')">
       <transition name="fade"> 
         <div id="articleAlertMsg" class="alert alert-info" v-if="alertSuccess">{{ successMsg }}</div>
         <div id="articleAlertMsg" class="alert alert-danger" v-if="alertWarning">{{ wanrningMsg }}</div>
@@ -36,10 +15,14 @@
         </ul>
           <div v-else style="display: inline;">无</div>
       </div><hr style="height: 5px">
-      <input id="BtnAddTag" class="btn btn-warning" type="button" value="Add Tag" @click="chooseAddTag" v-if="isLogin">
-      <input id="BtnDeleteTag" class="btn btn-warning" type="button" value="Delete Tag" v-if="isLogin && tempDatas != undefined" @click="chooseDeleteTag">
-      <input id="BtnSaveTag" class="btn btn-warning" type="button" value="Save" v-if="chooseAdd" @click="Save">
-      <input id="BtnDelete" class="btn btn-warning" type="button" value="Delete" v-if="chooseDelete" @click="DeleteTag">
+      <!-- 按钮 -->
+      <div id="btn-tag-opt" class="btn-group offset-md-6 offset-6 col-md-6 col-6" role="group" aria-label="Basic">
+        <input id="BtnDelete" class="btn btn-outline-warning" type="button" value="Delete" v-if="chooseDelete" @click="DeleteTag">
+        <input id="BtnSaveTag" class="btn btn-outline-warning" type="button" value="Save" v-if="chooseAdd" @click="Save">
+        <input id="BtnAddTag" class="btn btn-outline-warning" type="button" value="Add Tag" @click="chooseAddTag" v-if="isLogin">
+        <input id="BtnDeleteTag" class="btn btn-outline-warning" type="button" value="Delete Tag" v-if="isLogin && tempDatas != undefined" @click="chooseDeleteTag">
+        
+      </div>
       <!--显示可添加的现有标签-->
       <div id="tags-list">
       <ul>
@@ -88,10 +71,6 @@ export default {
       } else {
         return false
       }
-    },
-    isLogin: function () {
-      let isLoginState = JSON.parse(store.getters.getEditorText)
-      return isLoginState
     }
   },
   methods:{
@@ -310,14 +289,6 @@ export default {
 
 </script>
 <style>
-/*li {
-  list-style: circle;
-}
-
-.list-group > li {
-  list-style: none;
-}*/
-
 html, body , .article-index{
   margin: 0px;
     background-color: #EEE;
@@ -330,27 +301,6 @@ div, li, .btn, .btn-hover {
   -moz-transition: color .1s; /* Firefox 4 */
   -webkit-transition: color .1s;  /* Safari 和 Chrome */
   -o-transition: color .1s; /* Opera */
-}
-
-.list-group > li {
-  color: black;
-  display: flex;
-  justify-content: space-between;
-}
-
-.list-group > li:hover {
-  color: orange;
-}
-
-#personaBar {
-  position: relative;
-  margin-right: 10px;
-  margin-bottom: 10px;
-}
-
-.badge {
-  width: 40px;
-  height: 20px;
 }
 
 .btn-warning {
@@ -370,10 +320,10 @@ div, li, .btn, .btn-hover {
 }
 
 #editTag {
-    width: 100%;
+    /*width: 100%;*/
     text-align: left;
     margin: 0px 0px 0px 0px;
-    background-color: #EEE;
+    background-color: white;
 }
 
 #editTag #title{
@@ -385,6 +335,7 @@ div, li, .btn, .btn-hover {
 #editTag-right {
     display: inline-block;
     height: 100%;
+    width: 100%;
     padding: 20px;
     background-color: white;
 }
@@ -401,8 +352,8 @@ div, li, .btn, .btn-hover {
 
 #editTag #tags-list ul{
   text-align:left;
-  padding-left: 80px;
-  padding-right: 50px;
+/*  padding-left: 80px;
+  padding-right: 50px;*/
   margin-top: 40px;
 }
 .active {
@@ -442,4 +393,15 @@ div, li, .btn, .btn-hover {
   position: absolute;
   margin-left: 22%;
 }
+
+#btn-tag-opt {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+#btn-tag-opt > input {
+  max-width: 100px;
+}
+
 </style>

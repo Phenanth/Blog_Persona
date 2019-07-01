@@ -1,54 +1,28 @@
 <!DOCTYPE html>
 <template>
 <div id="reader" class="col-12">
-  <!--<div id="personaBar" class="col-md-2 offset-md-2 col-12">
-    网站信息卡片 
-    <div class="card text-right text-white bg-info mb-3">
-      <div class="card-body">
-        路径下还有一些别的图片可以供展示，还没写好根据日期自动换首页图片的功能...想想而已 
-        <img src="../../assets/cardPic7.png" class="card-img-top" alt="Card Pic.">
-        <h3 class="card-title">Persona</h3>
-        <p class="card-text">基于md文档系统与Vue的文章管理系统</p>
-
-      </div>
-      <ul class="list-group list-group-flush">
-          <li class="list-group-item" @click="goTo('/list')"><a class="card-link">首页</a></li>
-          <li class="list-group-item" @click="goTo('/tags')"><a class="card-link">标签一览</a></li>
-       </ul>
-      <div class="card-body">
-         登录与不登录显示不同内容>
-        <a v-if="isLogin" @click="doLogout()" class="badge badge-warning">Logout</a>
-        <a v-else @click="goTo('/login')" class="badge badge-warning">Login</a>
-        <a href="https://github.com/Phenanth/Blog_Persona" class="badge badge-light">Git</a>
-      </div>
-    </div>
-  </div>-->
   <div id="read-head" class="col-12">
       <!--按钮-->
       <input id="articleBtnGoList" class="btn btn-outline-info col-xl-1 col-md-2 col-3" type="button" value="Back" @click="goTo('/list')">
-      <!-- 根据是否为第一篇文章显示不同内容
-      <input type="button" v-if="articleId != num" class="btn btn-outline-info" value="Next" id="BtnNextArticle" @click="next">
-      <input type="button" v-else class="btn btn-outline-info" value="Next" id="BtnNextArticle" @click="next" disabled>
-      根据是否为最后一篇文章显示不同内容
-      <input  v-if="articleId != min" id="BtnLastArticle" class="btn btn-outline-info" value="Last" type="button" @click="last">
-      <input  v-else id="BtnLastArticle" class="btn btn-outline-info" value="Last" type="button" @click="last" disabled> -->
-      <!--编辑按钮-->
-      
       <input id="BtnDeleteArticle" class="btn btn-outline-danger" type="button" value="Delete" v-if="isLogin" @click="deleteArticle">
       <input id="BtnEditArticle" class="btn btn-outline-warning" type="button" value="Edit" v-if="isLogin" @click="goTo($route.path.split('/',3).join('/')+'/edit')">
       <input id="BtnEditTag" class="btn btn-outline-warning" type="button" v-if="isLogin" value="Edit Tags" @click="goTo($route.path.split('/',3).join('/')+'/editTag')"><br><br>
 
       <h2 id="Articletitle">{{articleTitle}}</h2>
+
       <!-- Spinner -->
       <div v-if="!isLoaded" id="reader-spinner" class="spinner-border text-warning offset-md-5" role="status">
         <span class="sr-only">Loading...</span>
       </div>
+
       <div id="tagMsg">所属标签：
         <ul v-if="tempDatas != undefined">
           <li v-for="data in tempDatas" id="tag">{{ data.tag_name}}</li>
         </ul>
           <div v-else style="display: inline;">无</div>
-      </div><hr style="height: 1px;">
+      </div>
+
+      <div class="dropdown-divider"></div>
 
       <transition name="fade"> 
         <div id="articleAlertMsg" class="alert alert-info" v-if="alertSuccess">{{ successMsg }}</div>
@@ -112,13 +86,6 @@ export default {
       let isLoginState = JSON.parse(store.getters.getEditorText)
       return isLoginState
     }
-    // isLoaded: function () {
-    //   if (this.articleId != 0) {
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // }
   },
   methods:{
     BackToTop: function(){
@@ -181,11 +148,6 @@ export default {
           })
       }
     },
-    // 登出函数
-    doLogout: function () {
-      store.dispatch('removeEditorText')
-      this.$router.go(0)
-    },
     setSuccessMsg: function ( msg ){
       this.successMsg = msg
       setTimeout(function() {this.successMsg = ''}.bind(this), 3000)
@@ -242,37 +204,6 @@ export default {
 
 </script>
 <style>
-/*li {
-  list-style: circle;
-}
-
-.list-group > li {
-  list-style: none;
-}*/
-
-html, body , .article-index{
-  margin: 0px;
-    background-color: #EEE;
-    width: 100%;
-    height: 100%;
-}
-
-div, li, .btn, .btn-hover {
-  transition: color .1s;
-  -moz-transition: color .1s; /* Firefox 4 */
-  -webkit-transition: color .1s;  /* Safari 和 Chrome */
-  -o-transition: color .1s; /* Opera */
-}
-
-
-.btn-warning {
-  color: white;
-}
-
-.btn-warning:hover {
-  color: white;
-}
-
 .fade-enter-active, .fade-leave-active {
   transition: opacity 1s;
 }
@@ -282,10 +213,7 @@ div, li, .btn, .btn-hover {
 }
 
 #reader {
-    width: 100%;
     text-align: left;
-    margin: 0px 0px 0px 0px;
-    background-color: #EEE;
 }
 
 #reader #title{
@@ -326,11 +254,6 @@ div, li, .btn, .btn-hover {
   margin-bottom: 80px;
 }
 
-.card-body > a {
-  font-size: 8px;
-  line-height: 16px;
-}
-
 #read-head {
   display: inline-block;
   height: 100%;
@@ -360,6 +283,19 @@ div, li, .btn, .btn-hover {
   display: inline;
   float: right;
   margin-right: 5px;
+}
+
+#btnGoTop {
+  background-color: lightgray;
+  width:30px;
+  height:30px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+}
+
+#btnGoTop:hover {
+  background-color: gray;
 }
 
 blockquote {
@@ -451,18 +387,4 @@ pre {
   background-color: #f6f8fa;
   border-radius: 3px;
 }
-
-#btnGoTop {
-  background-color: lightgray;
-  width:30px;
-  height:30px;
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-}
-
-#btnGoTop:hover {
-  background-color: gray;
-}
-
 </style>

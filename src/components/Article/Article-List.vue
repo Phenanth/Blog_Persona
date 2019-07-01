@@ -1,29 +1,6 @@
 <!DOCTYPE html>
 <template>
-<div id="list" class="col-6">
-	<!--<div id="personaBar" class="col-md-2 offset-md-1 offset-lg-2 col-12">
-		 网站信息卡片
-		 <div class="card text-right text-white bg-info mb-3">
-			
-			<div class="card-body">
-				路径下还有一些别的图片可以供展示，还没写好根据日期自动换首页图片的功能...想想而已 
-				<img src="../../assets/cardPic7.png" class="card-img-top" alt="Card Pic.">
-				<h3 class="card-title">Persona</h3>
-				<p class="card-text">基于md文档系统与Vue的文章管理系统</p>
-
-			</div>
-			<ul class="list-group list-group-flush">
-	          <li class="list-group-item" v-bind:class="{activeTag: isListActive}" @click="goTo('/list')"><a class="card-link">首页</a><span style="color:#ffc107;">●</span></li>
-	          <li class="list-group-item" v-bind:class="{activeTag: isTagActive}" @click="goTo('/tags')"><a class="card-link">标签一览</a></li>
-	       </ul>
-			<div class="card-body">
-				 登录与不登录显示不同内容 
-				<a v-if="isLogin" @click="doLogout()" class="badge badge-warning">Logout</a>
-				<a v-else @click="goTo('/login')" class="badge badge-warning">Login</a>
-				<a href="https://github.com/Phenanth/Blog_Persona" class="badge badge-light">Git</a>
-			</div>
-		</div> 
-	</div> -->
+<div id="list" class="col-md-6 col-12">
 	<!-- 文章列表 -->
 	<div id="articleList">
     	<!-- 留言用 -->
@@ -42,7 +19,6 @@
 	  		<p>之后还需要对程序进行服务器部署。</p>
 		</div> -->
 		<div class="row">
-			
 			<!-- 登录后才显示新建文章按钮 -->
 			<input v-if="isLogin" id="" class="btn btn-outline-warning col-2 offset-9" type="button" value="New" @click="createNewArticle()"></input>
 		</div>
@@ -83,18 +59,6 @@ export default {
 			let isLoginState = JSON.parse(store.getters.getEditorText)
 			return isLoginState
 
-		},
-		isListActive: function () {
-			let pageCheck = new RegExp('/list', 'g')
-			let arr = pageCheck.exec(this.$route.path)
-			if (arr) {
-				return true
-			} else {
-				return false
-			}
-		},
-		isTagActive: function () {
-			return false;
 		}
 	},
 	methods: {
@@ -118,11 +82,6 @@ export default {
 			} else {
 				return 0
 			}
-		},
-		// 登出函数
-		doLogout: function () {
-			store.dispatch('removeEditorText')
-			this.$router.go(0)
 		},
 		sortCreateTimeRule: function (a, b) {
 			return a - b
@@ -161,23 +120,9 @@ export default {
 }
 </script>
 <style>
-
-html, body {
-    background-color: #EEE;
-    width: 100%;
-    height: 100%;
-}
-
-small {
+#list small {
 	color: #17A2B8;
 	font-weight: bold;
-}
-
-div, li, .btn, .btn-hover {
-	transition: color .1s;
-	-moz-transition: color .1s;	/* Firefox 4 */
-	-webkit-transition: color .1s;	/* Safari 和 Chrome */
-	-o-transition: color .1s;	/* Opera */
 }
 
 
@@ -227,12 +172,6 @@ div, li, .btn, .btn-hover {
 
 .btn-newArticle {
 	margin-right: 10px;
-}
-
-#articleList {
-	height: 100%;
-	padding: 48px 24px 130px 24px;
-    background-color: white;
 }
 
 
