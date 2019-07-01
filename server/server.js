@@ -25,8 +25,8 @@ app.use(function (req, res, next) {
 	next(err);
 });
 
-app.listen(3000, function () {
-	console.log('Server running at port 3000...');
+app.listen(3010, function () {
+	console.log('Server running at port 3010...');
 });
 
 // Keep the db connection alive.
