@@ -113,6 +113,15 @@ export default {
 		return instance.post('/api/deleteTag', data)
 	},
 
+	// 去除标签
+	removeTag (data) {
+		return instance.post('/api/removeTag', data)
+	},
+
+	editTag (data) {
+		return instance.post('/api/editTag', data)
+	},
+
 	getTagArticlelist (data) {
 		return instance.post('/api/getTagArticlelist', data)
 	},

@@ -83,8 +83,9 @@ html, body {
     overflow-x: hidden;
 }
 
+/*留这句话会导致有序列表也变成空心圆*/
 li {
-	list-style: circle;
+	/*list-style: circle;*/
 }
 
 #list, #tags, #reader, #personaBar, #editTag {

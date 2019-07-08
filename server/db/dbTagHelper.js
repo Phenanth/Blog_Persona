@@ -186,7 +186,7 @@ const deleteTag = (req, res) => {
 			console.log(error)
 		}
 		else {
-			console.log(req.body.tagId,req.body.articleId)			
+			// console.log(req.body.tagId,req.body.articleId)			
 			console.log('Operation: Tags - Delete Tags, State: 200');
 			res.json({
 				info: 200,
@@ -195,6 +195,60 @@ const deleteTag = (req, res) => {
 			})
 		}
 	})
+}
+
+// 从Tags表中删除标签，使之不会出现在/tags目录中以及标签编辑页面
+const removeTag = (req, res) => {
+
+	let queryString = {
+		sql: 'DELETE FROM tags WHERE tag_id=?',
+		values: [req.body.tagId],
+		timeout: 40000
+	};
+	db.query(queryString, function(error, results, fields) {
+		if (error) {
+			console.log(error);
+			console.log('Operation: Tags - Remove Tags, State: 504, Message: DB Fault.');
+			res.json({
+				info: 504,
+				success: false,
+				message: 'DB Fault.'
+			});
+
+		} else {
+			let queryString2 = {
+				sql: 'DELETE FROM tag_relationship WHERE tag_id=?',
+				values: [req.body.tagId],
+				timeout: 40000
+			};
+			db.query(queryString2, function(error2, results, fields) {
+				if (error2) {
+					console.log(error2);
+					console.log('Operation: Tags - Remove Tags, State: 504, Message: DB Fault.');
+					res.json({
+						info: 504,
+						success: false,
+						message: 'DB Fault. (The second Transaction)'
+					});
+				} else {
+					console.log('Operation: Tags - Remove Tags, State: 200');
+					res.json({
+						info: 200,
+						success: true
+					});
+				}
+			});
+		}
+	});
+
+}
+
+// 编辑标签内容
+const editTag = (req, res) => {
+	res.json({
+		info: 200,
+		success: true
+	});
 }
 
 // 统计属于每个标签的文章数
@@ -323,6 +377,10 @@ module.exports = (router) => {
 	router.post('/addTagByName', addTagByName);
 
 	router.post('/deleteTag', deleteTag);
+
+	router.post('/removeTag', removeTag);
+
+	router.post('/editTag', editTag);
 
 	router.post('/getArticleNumOfTag', getArticleNumOfTag);
 

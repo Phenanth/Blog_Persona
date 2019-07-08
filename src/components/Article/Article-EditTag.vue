@@ -84,6 +84,10 @@ export default {
         this.activeId = data.tag_id
         //console.log(this.activeId)
     },
+    isLogin: function () {
+      let isLoginState = JSON.parse(store.getters.getEditorText)
+      return isLoginState
+    },
     //选择添加标签
     chooseAddTag: function () {
         this.chooseAdd = 1

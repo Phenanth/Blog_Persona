@@ -9,6 +9,7 @@ import Tags from '@/components/Tags'
 
 import Tag from '@/components/Tag/Tag'
 import Classes from '@/components/Tag/Tag-classes'
+import modifyTag from '@/components/Tag/Tag-ModifyTag'
 
 import Article from '@/components/Article/Article'
 import List from '@/components/Article/Article-List'
@@ -86,13 +87,27 @@ export default new Router({
 		{
 			path: '/tag/:tagId',
 			component: Tag,
+
 			children: [
 				{
 					path: 'classes',
 					component: Classes
+
+				},
+				{
+					path: 'modify',
+					component: modifyTag,
+					beforeEnter: (to, from, next) => {
+						let isLogin = JSON.parse(store.getters.getEditorText)
+						if (isLogin) {
+							next()
+						} else {
+							next('/')
+						}
+					}
 				}
 			]
-		}
+		},
 	  ]
 	},
 	{
@@ -124,7 +139,7 @@ export default new Router({
 						if (to.params.articleId <= index) {
 							next()
 						} else {
-									next('/list')
+							next('/list')
 						}
 					}
 				})
